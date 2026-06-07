@@ -1,0 +1,31 @@
+question_id,question,tool,topic_filter,retrieved_doc_ids,expected_doc_ids,expected_found,human_action,route_s,retrieve_s,respond_s
+Q01,What is the purpose of feature scaling in scikit-learn?,metadata_filtered_retriever,preprocessing,D02 | D02 | D02 | D02 | D02,D02,True,accept,0.0,1.0377,4.2967
+Q02,How does StandardScaler transform numerical features?,metadata_filtered_retriever,preprocessing,D02 | D02 | D02 | D02 | D02,D02,True,accept,0.0,0.2302,3.4458
+Q03,Why can feature scaling improve the performance of some machine learning algorithms?,metadata_filtered_retriever,preprocessing,D02 | D02 | D02 | D02 | D02,D02,True,accept,0.0,0.2333,3.7571
+Q04,When should preprocessing be fitted only on the training data?,metadata_filtered_retriever,preprocessing,D02 | D02 | D02 | D02 | D02,D02 | D03,True,accept,0.0,0.3207,3.2593
+Q05,What is the role of transformers in a scikit-learn workflow?,rag_retriever,,D01 | D02 | D03 | D03 | D02,D01 | D02,True,accept,0.0,0.2634,2.6057
+Q06,How can I create a Pipeline with StandardScaler and LogisticRegression?,metadata_filtered_retriever,preprocessing,D02 | D02 | D02 | D02 | D02,D03 | D08,False,reject,0.0,0.223,3.463
+Q07,Why are pipelines useful in machine learning workflows?,metadata_filtered_retriever,pipelines,D03 | D03 | D03 | D03 | D03,D03,True,accept,0.0,0.2594,3.1191
+Q08,How do pipelines help reduce the risk of data leakage?,metadata_filtered_retriever,pipelines,D03 | D03 | D03 | D03 | D03,D03,True,accept,0.0,0.3187,3.3663
+Q09,Can pipeline parameters be tuned using grid search?,metadata_filtered_retriever,pipelines,D03 | D03 | D03 | D03 | D03,D03 | D06,True,accept,0.0,0.32,3.7259
+Q10,How does train_test_split divide data into training and testing sets?,rag_retriever,,D05 | D05 | D05 | D04 | D05,D04,True,accept,0.0,0.2314,3.2372
+Q11,Why is it useful to keep a separate test set?,rag_retriever,,D05 | D05 | D05 | D06 | D05,D04 | D05,True,accept,0.0,0.3678,6.4091
+Q12,What is cross-validation used for in model evaluation?,metadata_filtered_retriever,cross_validation,D05 | D05 | D05 | D05 | D05,D05,True,accept,0.0,0.2907,2.7505
+Q13,How does k-fold cross-validation evaluate an estimator?,metadata_filtered_retriever,cross_validation,D05 | D05 | D05 | D05 | D05,D05,True,accept,0.0,1.0913,3.5374
+Q14,When is cross-validation preferable to a single train/test split?,metadata_filtered_retriever,cross_validation,D05 | D05 | D05 | D05 | D05,D05,True,accept,0.0,0.2006,4.2532
+Q15,What is GridSearchCV used for?,metadata_filtered_retriever,hyperparameter_tuning,D06 | D06 | D06 | D06 | D06,D06,True,accept,0.0,0.2164,2.71
+Q16,How can GridSearchCV help tune hyperparameters?,metadata_filtered_retriever,hyperparameter_tuning,D06 | D06 | D06 | D06 | D06,D06,True,accept,0.0,0.2069,6.4024
+Q17,What is the difference between GridSearchCV and RandomizedSearchCV?,metadata_filtered_retriever,hyperparameter_tuning,D06 | D06 | D06 | D06 | D06,D06,True,accept,0.0,0.2367,3.1291
+Q18,Why should hyperparameter tuning be combined with cross-validation?,metadata_filtered_retriever,hyperparameter_tuning,D06 | D06 | D06 | D06 | D06,D05 | D06,True,accept,0.0,0.2396,4.5931
+Q19,"What is the difference between accuracy, precision, recall and F1-score?",metadata_filtered_retriever,metrics,D07 | D07 | D07 | D07 | D07,D07,True,accept,0.0,0.2087,6.4722
+Q20,When is F1-score more useful than accuracy?,metadata_filtered_retriever,metrics,D07 | D07 | D07 | D07 | D07,D07,True,accept,0.0,0.4753,4.9912
+Q21,Why can accuracy be misleading for imbalanced classification problems?,metadata_filtered_retriever,metrics,D07 | D07 | D07 | D07 | D07,D07,True,accept,0.0,0.3642,4.6211
+Q22,How can I evaluate a binary classifier using precision and recall?,metadata_filtered_retriever,metrics,D07 | D07 | D07 | D07 | D07,D07,True,accept,0.0,0.2353,5.273
+Q23,What does LogisticRegression do in scikit-learn?,rag_retriever,,D08 | D08 | D08 | D08 | D08,D08,True,accept,0.0,0.4879,3.7772
+Q24,Which parameters of LogisticRegression are commonly used to control regularization?,metadata_filtered_retriever,logistic_regression,D08 | D08 | D08 | D08 | D08,D08,True,accept,0.0,0.1943,3.9229
+Q25,Why might LogisticRegression require feature scaling?,metadata_filtered_retriever,preprocessing,D02 | D02 | D02 | D02 | D02,D02 | D08,True,accept,0.0,0.4025,5.206
+Q26,What is a RandomForestClassifier in scikit-learn?,rag_retriever,,D09 | D09 | D10 | D10 | D10,D09 | D10,True,accept,0.0,0.2129,3.2658
+Q27,How does a random forest combine multiple decision trees?,rag_retriever,,D09 | D09 | D10 | D10 | D09,D09 | D10,True,accept,0.0,0.2192,2.752
+Q28,Which RandomForestClassifier parameters can control model complexity?,metadata_filtered_retriever,random_forest_classifier,D10 | D10 | D10 | D10 | D10,D10,True,accept,0.0,0.3083,3.3799
+Q29,When might RandomForestClassifier be preferred over LogisticRegression?,rag_retriever,,D09 | D09 | D09 | D08 | D09,D08 | D10,True,accept,0.0,0.2613,3.6258
+Q30,"How can a complete classification workflow combine preprocessing, model training, cross-validation and evaluation?",rag_retriever,,D05 | D05 | D06 | D05 | D05,D02 | D03 | D05 | D06 | D07,True,accept,0.0,0.2297,6.3237

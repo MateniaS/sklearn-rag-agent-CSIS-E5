@@ -1,0 +1,10 @@
+{
+  "doc_id": "D04",
+  "title": "train_test_split",
+  "topic": "train_test_split",
+  "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html",
+  "why_selected": "Χρήσιμο για βασικό διαχωρισμό δεδομένων σε train και test sets.",
+  "text_file": "D04.txt",
+  "num_characters": 10223,
+  "num_words": 1462
+}

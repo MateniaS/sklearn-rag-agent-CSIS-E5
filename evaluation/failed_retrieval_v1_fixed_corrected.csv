@@ -1,0 +1,3 @@
+question_id,question,expected_source,expected_source_ids_parsed,top1_doc_id,retrieved_doc_ids,retrieved_scores
+Q28,Which RandomForestClassifier parameters can control model complexity?,D10,D10,D09,D09 | D01 | D09 | D09 | D06,0.5354 | 0.4971 | 0.4518 | 0.4473 | 0.4445
+Q29,When might RandomForestClassifier be preferred over LogisticRegression?,D08/D10,D08 | D10,D09,D09 | D09 | D09 | D09 | D09,0.4659 | 0.4557 | 0.4556 | 0.4492 | 0.4487

@@ -1,0 +1,444 @@
+question_id,question_type,question,expected_source,expected_source_url,expected_answer_draft,generated_answer,retrieved_chunk_ids,retrieved_doc_ids,retrieved_titles,retrieved_sections,retrieved_urls,retrieved_scores,top1_doc_id,top1_url,expected_source_found_top_k,expected_url_found_top_k,top1_expected_source,top1_expected_url,expected_source_ids_parsed,corrected_expected_source_found_top_k,corrected_top1_expected_source
+Q01,conceptual,What is the purpose of feature scaling in scikit-learn?,D02,https://scikit-learn.org/stable/modules/preprocessing.html,"Feature scaling is used to transform raw numerical features into a representation that is more suitable for downstream estimators. In scikit-learn, many learning algorithms, especially linear models, can benefit from standardized data because features on very different scales may negatively affect the objective function and model learning.","The purpose of feature scaling in scikit-learn is to transform raw feature vectors into a representation that is more suitable for downstream estimators. Many machine learning algorithms, such as linear models, benefit from standardization or scaling of the dataset because they assume features are centered around zero and have similar variance. Without scaling, features with larger variance might dominate the objective function, making the estimator unable to learn properly from other features.
+
+Feature scaling methods like StandardScaler standardize features by removing the mean and scaling to unit variance, while MinMaxScaler and MaxAbsScaler scale features to a specific range (e.g., [0, 1] or [-1, 1]). This scaling improves robustness to very small standard deviations and preserves zero entries in sparse data. It also helps ensure consistent transformation between training and test data, which is important for model performance.
+
+In summary, feature scaling helps:
+- Make features more comparable by centering and scaling.
+- Improve the performance and convergence of many machine learning algorithms.
+- Handle features with different units or scales.
+- Maintain robustness in the presence of outliers or sparse data.
+
+Sources:
+- Preprocessing data - https://scikit-learn.org/stable/modules/preprocessing.html (Chunks D02_v1_001, D02_v1_002, D02_v1_005, D02_v1_006)",D02_v1_005 | D02_v1_001 | D02_v1_004 | D02_v1_002 | D02_v1_006,D02 | D02 | D02 | D02 | D02,Preprocessing data | Preprocessing data | Preprocessing data | Preprocessing data | Preprocessing data,None | None | None | None | None,https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html,0.6601 | 0.5745 | 0.5739 | 0.5338 | 0.5275,D02,https://scikit-learn.org/stable/modules/preprocessing.html,True,True,True,True,D02,True,True
+Q02,conceptual,How does StandardScaler transform numerical features?,D02,https://scikit-learn.org/stable/modules/preprocessing.html,"StandardScaler standardizes each feature by removing the mean and scaling to unit variance. It learns the mean and standard deviation from the training data during fit, and then applies the same transformation during transform.","StandardScaler transforms numerical features by standardizing them: it removes the mean value of each feature (centering) and then scales the features by dividing by their standard deviation (scaling). This results in features that have zero mean and unit variance. The transformation is computed on the training set and can then be applied consistently to new data, such as a test set. This standardization is useful because many machine learning algorithms assume that features are centered around zero and have similar variance.
+
+In summary, the transformation performed by StandardScaler on each feature \( x \) is:
+
+\[
+x_{\text{scaled}} = \frac{x - \text{mean}}{\text{standard deviation}}
+\]
+
+where the mean and standard deviation are computed from the training data.
+
+Sources:
+- Preprocessing data — scikit-learn documentation: https://scikit-learn.org/stable/modules/preprocessing.html (Chunks D02_v1_002, D02_v1_003)",D02_v1_005 | D02_v1_002 | D02_v1_001 | D02_v1_004 | D02_v1_003,D02 | D02 | D02 | D02 | D02,Preprocessing data | Preprocessing data | Preprocessing data | Preprocessing data | Preprocessing data,None | None | None | None | None,https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html,0.593 | 0.5606 | 0.5412 | 0.5352 | 0.5326,D02,https://scikit-learn.org/stable/modules/preprocessing.html,True,True,True,True,D02,True,True
+Q03,conceptual,Why can feature scaling improve the performance of some machine learning algorithms?,D02,https://scikit-learn.org/stable/modules/preprocessing.html,"Feature scaling can improve performance because some estimators assume or work better when features are centered around zero and have comparable variance. If one feature has a much larger variance than the others, it can dominate the objective function and make it harder for the estimator to learn correctly from the remaining features.","Feature scaling can improve the performance of some machine learning algorithms because many learning algorithms, such as linear models, benefit from standardization of the dataset. Standardization involves centering the data by removing the mean value of each feature and scaling it by dividing by the standard deviation, so that the features more or less look like standard normally distributed data (Gaussian with zero mean and unit variance). If features are not scaled, algorithms might behave badly because they assume or perform better when features have similar scales.
+
+Additionally, scaling features to a specific range (e.g., between 0 and 1) can provide robustness to very small standard deviations of features and preserve zero entries in sparse data. This helps in making the data representation more suitable for downstream estimators, improving their robustness and performance.
+
+In summary, feature scaling helps by:
+- Making the data distribution more uniform and comparable across features.
+- Improving the numerical stability and convergence speed of algorithms.
+- Ensuring that features contribute proportionally to the result, especially for algorithms sensitive to the scale of input data.
+
+Sources:
+- Preprocessing data, https://scikit-learn.org/stable/modules/preprocessing.html (Chunks D02_v1_001, D02_v1_004, D02_v1_005)",D02_v1_005 | D02_v1_001 | D09_v1_046 | D02_v1_004 | D09_v1_032,D02 | D02 | D09 | D02 | D09,Preprocessing data | Preprocessing data | Random forests | Preprocessing data | Random forests,None | None | None | None | None,https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/ensemble.html#forest,0.5797 | 0.5007 | 0.493 | 0.4784 | 0.4749,D02,https://scikit-learn.org/stable/modules/preprocessing.html,True,True,True,True,D02,True,True
+Q04,decision-support,When should preprocessing be fitted only on the training data?,D02/D03,https://scikit-learn.org/stable/modules/preprocessing.html; https://scikit-learn.org/stable/modules/compose.html,"Preprocessing should be fitted only on the training data to avoid data leakage. If preprocessing is fitted on the full dataset before splitting or cross-validation, information from the test data can leak into the training process, leading to over-optimistic evaluation results.","Preprocessing should be fitted only on the training data to avoid data leakage and to ensure that the evaluation metrics reflect the model's generalization performance. Specifically, preprocessing steps such as standardization, feature selection, or imputing missing values should be learned from the training set and then applied to the held-out test data. This prevents incorporating statistics from the test data into the preprocessors, which would make cross-validation scores unreliable.
+
+For example, when using a scaler like `StandardScaler`, you fit it on the training data only:
+
+```python
+scaler = preprocessing.StandardScaler().fit(X_train)
+X_train_transformed = scaler.transform(X_train)
+X_test_transformed = scaler.transform(X_test)
+```
+
+This approach ensures that the transformation parameters (e.g., mean and variance for scaling) are derived solely from the training data, maintaining the integrity of the evaluation on the test data.
+
+Using a `Pipeline` in scikit-learn can help automate this process and avoid data leakage during cross-validation by fitting the preprocessing steps only on the training folds.
+
+Sources:
+- Cross-validation: https://scikit-learn.org/stable/modules/cross_validation.html
+- Pipeline and composite estimators: https://scikit-learn.org/stable/modules/compose.html",D05_v1_007 | D02_v1_001 | D03_v1_016 | D05_v1_003 | D01_v1_003,D05 | D02 | D03 | D05 | D01,Cross-validation | Preprocessing data | Pipeline and composite estimators | Cross-validation | Getting Started,None | None | None | None | None,https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/compose.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/getting_started.html,0.4593 | 0.4539 | 0.441 | 0.4358 | 0.42,D05,https://scikit-learn.org/stable/modules/cross_validation.html,False,False,False,False,D02 | D03,True,False
+Q05,conceptual,What is the role of transformers in a scikit-learn workflow?,D01/D02,https://scikit-learn.org/stable/getting_started.html; https://scikit-learn.org/stable/modules/preprocessing.html,"Transformers are preprocessing objects that implement a transform method. They take an input data matrix and output a transformed version of it, for example after scaling, imputing, or otherwise changing the feature representation before passing it to a predictor.","Transformers in a scikit-learn workflow serve the role of preprocessing or transforming the input data before it is passed to a final predictor (estimator). They implement a `transform` method that outputs a newly transformed sample matrix \(X\), but unlike estimators, they do not have a `predict` method. Transformers are used to apply operations such as scaling, imputing missing values, or feature extraction, which prepare the data in a form more suitable for the downstream estimator.
+
+Using transformers within a Pipeline ensures that the preprocessing steps are applied consistently and safely, preventing data leakage (i.e., incorporating statistics from test data into the preprocessors). This also allows the parameters of the preprocessors to be included in parameter searches. Transformers can be applied to different columns of the data using tools like `ColumnTransformer`, which allows different transformations for different columns within a pipeline.
+
+In summary, transformers are essential for data preprocessing in a scikit-learn workflow, enabling the transformation of raw data into a form that improves the performance and reliability of machine learning models.
+
+Sources:
+- ""Getting Started"" - https://scikit-learn.org/stable/getting_started.html
+- ""Pipeline and composite estimators"" - https://scikit-learn.org/stable/modules/compose.html",D03_v1_016 | D01_v1_003 | D02_v1_003 | D02_v1_001 | D01_v1_004,D03 | D01 | D02 | D02 | D01,Pipeline and composite estimators | Getting Started | Preprocessing data | Preprocessing data | Getting Started,None | None | None | None | None,https://scikit-learn.org/stable/modules/compose.html | https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/getting_started.html,0.5637 | 0.5634 | 0.5298 | 0.5137 | 0.5127,D03,https://scikit-learn.org/stable/modules/compose.html,False,False,False,False,D01 | D02,True,False
+Q06,procedural,How can I create a Pipeline with StandardScaler and LogisticRegression?,D03/D08,https://scikit-learn.org/stable/modules/compose.html; https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html,"A Pipeline can be created by chaining preprocessing and model steps, for example a StandardScaler followed by a LogisticRegression classifier. In scikit-learn, all intermediate steps of a Pipeline must be transformers, while the final step can be a predictor such as a classifier.","You can create a Pipeline with `StandardScaler` and `LogisticRegression` using the `make_pipeline` function from `sklearn.pipeline`. Here's an example based on the provided context:
+
+```python
+from sklearn.pipeline import make_pipeline
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.datasets import make_classification
+from sklearn.model_selection import train_test_split
+
+# Generate some data
+X, y = make_classification(random_state=42)
+
+# Split data into training and testing sets
+X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=42)
+
+# Create the pipeline with StandardScaler and LogisticRegression
+pipe = make_pipeline(StandardScaler(), LogisticRegression())
+
+# Fit the pipeline on the training data
+pipe.fit(X_train, y_train)
+
+# Score the pipeline on the test data
+score = pipe.score(X_test, y_test)
+print(score)
+```
+
+This pipeline first applies `StandardScaler` to scale the features (zero mean and unit variance), then fits a `LogisticRegression` model. Using a pipeline ensures that scaling is applied properly during both training and testing, preventing data leakage.
+
+Sources:
+- Preprocessing data: https://scikit-learn.org/stable/modules/preprocessing.html
+- Getting Started: https://scikit-learn.org/stable/getting_started.html",D02_v1_004 | D01_v1_004 | D02_v1_003 | D01_v1_005 | D03_v1_010,D02 | D01 | D02 | D01 | D03,Preprocessing data | Getting Started | Preprocessing data | Getting Started | Pipeline and composite estimators,None | None | None | None | None,https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/modules/compose.html,0.6256 | 0.5944 | 0.5402 | 0.5263 | 0.4807,D02,https://scikit-learn.org/stable/modules/preprocessing.html,False,False,False,False,D03 | D08,True,False
+Q07,conceptual,Why are pipelines useful in machine learning workflows?,D03,https://scikit-learn.org/stable/modules/compose.html,"Pipelines are useful because they encapsulate a sequence of machine learning steps into one estimator. This allows the user to call fit and predict once for the whole workflow, while keeping preprocessing and prediction steps connected and organized.","Pipelines are useful in machine learning workflows because they allow chaining of multiple processing steps (such as data preprocessing and model fitting) into a single, unified object that behaves like a regular estimator. This means you can fit and predict using the pipeline as a whole, simplifying the workflow. Additionally, pipelines help prevent data leakage by ensuring that transformations are learned only from the training data and then applied to the test data. They also facilitate parameter tuning and model selection by allowing the entire sequence of steps to be treated as one object in cross-validation and grid search. Furthermore, pipelines can cache transformers to avoid repeated computation, improving efficiency.
+
+In summary, pipelines:
+- Combine multiple steps (transformers and estimators) into one object with a consistent API.
+- Prevent data leakage by properly applying transformations.
+- Simplify model fitting and prediction.
+- Facilitate hyperparameter tuning and cross-validation.
+- Improve computational efficiency through caching.
+
+Sources:
+- ""Getting Started"" (https://scikit-learn.org/stable/getting_started.html)
+- ""Pipeline and composite estimators"" (https://scikit-learn.org/stable/modules/compose.html)
+- ""Cross-validation"" (https://scikit-learn.org/stable/modules/cross_validation.html)",D01_v1_004 | D03_v1_003 | D03_v1_007 | D03_v1_004 | D05_v1_007,D01 | D03 | D03 | D03 | D05,Getting Started | Pipeline and composite estimators | Pipeline and composite estimators | Pipeline and composite estimators | Cross-validation,None | None | None | None | None,https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/modules/compose.html | https://scikit-learn.org/stable/modules/compose.html | https://scikit-learn.org/stable/modules/compose.html | https://scikit-learn.org/stable/modules/cross_validation.html,0.5238 | 0.5057 | 0.4915 | 0.4753 | 0.4734,D01,https://scikit-learn.org/stable/getting_started.html,True,True,False,False,D03,True,False
+Q08,decision-support,How do pipelines help reduce the risk of data leakage?,D03,https://scikit-learn.org/stable/modules/compose.html,Pipelines help reduce data leakage because they ensure that the same training samples are used to fit both the transformers and the predictor during cross-validation. This prevents statistics from the test data from leaking into the trained model.,"Pipelines help reduce the risk of data leakage by ensuring that all data preprocessing steps are applied correctly and only on the training data during the fitting process, before being applied to the test data. When using a pipeline, the sequence of transformations and the final estimator are combined into a single object that is fitted on the training data. This means that any data transformations (such as scaling) are learned only from the training set and then applied to the test set during prediction, preventing information from the test data from leaking into the training process.
+
+Specifically, as mentioned in the context, using a pipeline ""will also prevent you from data leakage, i.e. disclosing some testing data in your training data."" For example, when you fit a pipeline on training data, the scaler computes scaling parameters (like mean and variance) only from the training data. When you later call `predict` on the test data, the pipeline applies the same scaling parameters to the test data without refitting, thus avoiding leakage.
+
+This is illustrated in the example where a pipeline consisting of a `StandardScaler` and a `LogisticRegression` is fitted on training data and then scored on test data, applying scaling on the test data without leaking training data.
+
+Sources:
+- ""Getting Started"" (https://scikit-learn.org/stable/getting_started.html)
+- ""Preprocessing data"" (https://scikit-learn.org/stable/modules/preprocessing.html)",D01_v1_004 | D03_v1_004 | D03_v1_005 | D03_v1_008 | D02_v1_004,D01 | D03 | D03 | D03 | D02,Getting Started | Pipeline and composite estimators | Pipeline and composite estimators | Pipeline and composite estimators | Preprocessing data,None | None | None | None | None,https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/modules/compose.html | https://scikit-learn.org/stable/modules/compose.html | https://scikit-learn.org/stable/modules/compose.html | https://scikit-learn.org/stable/modules/preprocessing.html,0.3891 | 0.3502 | 0.349 | 0.3428 | 0.3412,D01,https://scikit-learn.org/stable/getting_started.html,True,True,False,False,D03,True,False
+Q09,procedural,Can pipeline parameters be tuned using grid search?,D03/D06,https://scikit-learn.org/stable/modules/compose.html; https://scikit-learn.org/stable/modules/grid_search.html,"Yes. Pipeline parameters can be tuned using grid search. Parameters of individual steps are accessed using the step name, followed by a double underscore and the parameter name, such as clf__C. This allows GridSearchCV to search over parameters of multiple pipeline steps at once.","Yes, pipeline parameters can be tuned using grid search in scikit-learn. Parameters of the estimators within a pipeline are accessible using the syntax `<estimator>__<parameter>`. This allows you to specify a parameter grid for different steps in the pipeline and perform a grid search over these parameters.
+
+For example, if you have a pipeline with a PCA step named ""reduce_dim"" and a classifier step named ""clf"", you can define a parameter grid like this:
+
+```python
+param_grid = dict(
+    reduce_dim__n_components=[2, 5, 10],
+    clf__C=[0.1, 10, 100]
+)
+```
+
+Then, you can pass this parameter grid to `GridSearchCV` along with the pipeline:
+
+```python
+from sklearn.model_selection import GridSearchCV
+
+grid_search = GridSearchCV(pipe, param_grid=param_grid)
+```
+
+This will allow `GridSearchCV` to tune the parameters of the pipeline steps during the search.
+
+Sources:
+- Pipeline and composite estimators: https://scikit-learn.org/stable/modules/compose.html
+- Grid search: https://scikit-learn.org/stable/modules/grid_search.html",D03_v1_007 | D06_v1_004 | D06_v1_027 | D06_v1_003 | D03_v1_006,D03 | D06 | D06 | D06 | D03,Pipeline and composite estimators | Grid search | Grid search | Grid search | Pipeline and composite estimators,None | None | None | None | None,https://scikit-learn.org/stable/modules/compose.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/compose.html,0.6591 | 0.6311 | 0.5935 | 0.5859 | 0.5802,D03,https://scikit-learn.org/stable/modules/compose.html,False,False,False,False,D03 | D06,True,True
+Q10,procedural,How does train_test_split divide data into training and testing sets?,D04,https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html,"train_test_split splits arrays or matrices into random train and test subsets. It is a utility function that performs input validation and applies a randomized split, with options such as test size, train size, random state, shuffling and stratification.","The function `train_test_split` in scikit-learn divides data into training and testing sets by randomly splitting the input arrays or matrices into subsets. It is a quick utility that wraps input validation and the `ShuffleSplit` cross-validation iterator, applying it to the input data in a single call.
+
+Key points about how `train_test_split` divides data:
+
+- It takes as input one or more arrays (such as lists, numpy arrays, sparse matrices, or pandas dataframes) that have the same length.
+- The user can specify the proportion or absolute number of samples to include in the test set via the `test_size` parameter. If `test_size` is a float, it represents the proportion of the dataset to include in the test split (between 0.0 and 1.0). If it is an int, it represents the absolute number of test samples.
+- Similarly, the `train_size` parameter can be used to specify the size of the training set.
+- If both `test_size` and `train_size` are None, the default test size is set to 0.25 (i.e., 25% of the data is used for testing).
+- By default, the data is shuffled before splitting (`shuffle=True`), ensuring random division.
+- The `random_state` parameter can be set to ensure reproducibility of the random split.
+- Optionally, stratified splitting can be done by passing the `stratify` parameter, which ensures that the train and test sets have approximately the same percentage of samples of each target class as the complete set.
+
+In summary, `train_test_split` randomly shuffles the data (unless `shuffle=False`) and splits it into training and testing subsets according to the specified sizes, optionally preserving class proportions if stratification is requested.
+
+Sources:
+- ""train_test_split"" - https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html",D05_v1_022 | D04_v1_001 | D05_v1_033 | D05_v1_023 | D05_v1_031,D05 | D04 | D05 | D05 | D05,Cross-validation | train_test_split | Cross-validation | Cross-validation | Cross-validation,None | None | None | None | None,https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html,0.5324 | 0.5004 | 0.4985 | 0.4969 | 0.4953,D05,https://scikit-learn.org/stable/modules/cross_validation.html,True,True,False,False,D04,True,False
+Q11,conceptual,Why is it useful to keep a separate test set?,D04/D05,https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html; https://scikit-learn.org/stable/modules/cross_validation.html,"A separate test set is useful because evaluating a model on the same data used for training can give an over-optimistic result. A model may perform very well on data it has already seen, but fail to generalize to unseen data. The test set is held out to estimate performance on new data.","It is useful to keep a separate test set because if the parameters of a model are tweaked until the estimator performs optimally on the data used for training and validation, knowledge about the test set can ""leak"" into the model. This leakage means that evaluation metrics no longer accurately report on the model's generalization performance to unseen data. By holding out a separate test set for final evaluation, after training and validation are complete, one can obtain an unbiased estimate of the model's performance on new, unseen data. This helps ensure that the reported performance truly reflects the model's ability to generalize rather than just its ability to fit the training and validation data.
+
+Sources:
+- Cross-validation, https://scikit-learn.org/stable/modules/cross_validation.html (Chunk ID: D05_v1_003)",D05_v1_003 | D05_v1_036 | D05_v1_004 | D05_v1_023 | D05_v1_017,D05 | D05 | D05 | D05 | D05,Cross-validation | Cross-validation | Cross-validation | Cross-validation | Cross-validation,None | None | None | None | None,https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html,0.5923 | 0.4556 | 0.4526 | 0.4334 | 0.4249,D05,https://scikit-learn.org/stable/modules/cross_validation.html,False,False,False,False,D04 | D05,True,True
+Q12,conceptual,What is cross-validation used for in model evaluation?,D05,https://scikit-learn.org/stable/modules/cross_validation.html,"Cross-validation is used to evaluate how well an estimator is expected to generalize. Instead of relying on a single train/test split, it repeatedly trains and validates the model on different subsets of the data and summarizes the performance across splits.","Cross-validation is used in model evaluation to estimate the generalization performance of a model more reliably without wasting too much data. Instead of holding out a separate validation set, cross-validation splits the training set into k smaller sets (folds). The model is trained on k-1 folds and validated on the remaining fold, and this process is repeated k times with different folds as the validation set. The performance measure reported is the average of the values computed in these k iterations. This approach helps avoid overfitting and provides a better estimate of how the model will perform on unseen data, especially when the number of samples is small.
+
+Sources:
+- Cross-validation, https://scikit-learn.org/stable/modules/cross_validation.html (Chunks D05_v1_003, D05_v1_004, D05_v1_001)",D05_v1_003 | D05_v1_011 | D01_v1_006 | D05_v1_004 | D05_v1_001,D05 | D05 | D01 | D05 | D05,Cross-validation | Cross-validation | Getting Started | Cross-validation | Cross-validation,None | None | None | None | None,https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html,0.6073 | 0.5944 | 0.5893 | 0.5759 | 0.5646,D05,https://scikit-learn.org/stable/modules/cross_validation.html,True,True,True,True,D05,True,True
+Q13,conceptual,How does k-fold cross-validation evaluate an estimator?,D05,https://scikit-learn.org/stable/modules/cross_validation.html,"In k-fold cross-validation, the training data is split into k smaller folds. For each iteration, the model is trained on k-1 folds and evaluated on the remaining fold. The final performance is usually reported as the average score across all folds.","K-fold cross-validation evaluates an estimator by splitting the training set into \(k\) smaller sets called folds. The procedure is as follows:
+
+1. For each of the \(k\) folds:
+   - A model is trained using \(k-1\) of the folds as training data.
+   - The trained model is then validated on the remaining fold, which acts as a test set to compute a performance measure such as accuracy.
+
+2. This process is repeated \(k\) times, each time with a different fold used as the test set.
+
+3. The performance measure reported by k-fold cross-validation is the average of the values computed across all \(k\) folds.
+
+This approach allows for efficient use of data, especially when the number of samples is small, and provides a more reliable estimate of the model's generalization performance compared to using a single fixed validation set.
+
+Sources:
+- Cross-validation, https://scikit-learn.org/stable/modules/cross_validation.html (Chunks D05_v1_004, D05_v1_003, D05_v1_013)",D05_v1_004 | D05_v1_003 | D01_v1_006 | D05_v1_006 | D05_v1_013,D05 | D05 | D01 | D05 | D05,Cross-validation | Cross-validation | Getting Started | Cross-validation | Cross-validation,None | None | None | None | None,https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html,0.6688 | 0.6306 | 0.6138 | 0.5943 | 0.5854,D05,https://scikit-learn.org/stable/modules/cross_validation.html,True,True,True,True,D05,True,True
+Q14,decision-support,When is cross-validation preferable to a single train/test split?,D05,https://scikit-learn.org/stable/modules/cross_validation.html,"Cross-validation is preferable to a single train/test split when we want a more reliable estimate of model performance, especially when the available dataset is not very large. It reduces dependence on one random split, although it can be more computationally expensive.","Cross-validation is preferable to a single train/test split in situations where:
+
+1. You want to avoid wasting data by fixing an arbitrary validation set, which reduces the number of samples available for training. Cross-validation uses the data more efficiently by splitting the training set into multiple folds and training/validating on different subsets, thus making better use of limited data. This is especially important in problems where the number of samples is very small.
+
+2. You want a more reliable estimate of the model's generalization performance. A single train/test split can lead to results that depend heavily on the particular random split chosen, whereas cross-validation averages performance over multiple splits, reducing variance in the estimate.
+
+3. You want to tune hyperparameters without leaking information from the test set into the model, which can happen if parameters are tweaked based on a single validation set.
+
+4. You want to avoid the need for a separate validation set, as cross-validation can replace the validation set by internally splitting the training data.
+
+However, cross-validation can be computationally expensive compared to a single train/test split.
+
+In summary, cross-validation is preferable when you want a more robust and less biased estimate of model performance, especially when data is limited, and when you want to avoid the pitfalls of a single arbitrary split.
+
+Sources:
+- Cross-validation, https://scikit-learn.org/stable/modules/cross_validation.html (Chunks D05_v1_003, D05_v1_004)",D05_v1_003 | D05_v1_004 | D05_v1_033 | D05_v1_023 | D05_v1_016,D05 | D05 | D05 | D05 | D05,Cross-validation | Cross-validation | Cross-validation | Cross-validation | Cross-validation,None | None | None | None | None,https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html,0.6299 | 0.592 | 0.571 | 0.5644 | 0.5639,D05,https://scikit-learn.org/stable/modules/cross_validation.html,True,True,True,True,D05,True,True
+Q15,conceptual,What is GridSearchCV used for?,D06,https://scikit-learn.org/stable/modules/grid_search.html,GridSearchCV is used to search over a predefined set of hyperparameter values for an estimator. It evaluates combinations of parameters using cross-validation and helps select the parameter setting that gives the best validation performance.,"GridSearchCV is used for hyperparameter tuning by exhaustively generating candidates from a grid of parameter values specified with the param_grid parameter. When fitting a GridSearchCV instance on a dataset, all possible combinations of parameter values are evaluated using cross-validation, and the best combination is retained. This process helps in finding the optimal hyperparameters for a model to improve its performance. GridSearchCV implements the usual estimator API and can be used within a cross-validation loop to evaluate model performance more reliably.
+
+Sources:
+- ""Grid search"" - https://scikit-learn.org/stable/modules/grid_search.html (Chunks D06_v1_003, D06_v1_004, D06_v1_002)",D06_v1_003 | D06_v1_004 | D06_v1_005 | D06_v1_002 | D06_v1_028,D06 | D06 | D06 | D06 | D06,Grid search | Grid search | Grid search | Grid search | Grid search,None | None | None | None | None,https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html,0.7305 | 0.6744 | 0.6414 | 0.6403 | 0.6094,D06,https://scikit-learn.org/stable/modules/grid_search.html,True,True,True,True,D06,True,True
+Q16,procedural,How can GridSearchCV help tune hyperparameters?,D06,https://scikit-learn.org/stable/modules/grid_search.html,"GridSearchCV helps tune hyperparameters by evaluating combinations of predefined parameter values. For each candidate combination, it uses a cross-validation scheme and a scoring function, then keeps the parameter setting with the best validation performance.","GridSearchCV helps tune hyperparameters by exhaustively generating candidates from a grid of parameter values specified with the `param_grid` parameter. It evaluates all possible combinations of the specified parameter values by fitting the model on the dataset for each combination. The best combination of parameters is then retained based on the evaluation metric used during cross-validation.
+
+For example, you can specify a grid of parameters like:
+
+```python
+param_grid = [
+    {'C': [1, 10, 100, 1000], 'kernel': ['linear']},
+    {'C': [1, 10, 100, 1000], 'gamma': [0.001, 0.0001], 'kernel': ['rbf']},
+]
+```
+
+GridSearchCV will explore all combinations in this grid, such as different values of `C` with a linear kernel, and combinations of `C` and `gamma` with an RBF kernel. It implements the usual estimator API, so when you call `fit` on a GridSearchCV instance, it performs the exhaustive search and selects the best parameter combination.
+
+Additionally, GridSearchCV supports cross-validation to evaluate the performance of each parameter combination robustly, and it can be used with nested or composite estimators (like pipelines) by specifying parameters with a syntax like `<estimator>__<parameter>`.
+
+In summary, GridSearchCV automates the process of hyperparameter tuning by systematically searching through a specified parameter grid, evaluating each combination, and selecting the best one based on cross-validation performance.
+
+Sources:
+- ""Grid search"" - https://scikit-learn.org/stable/modules/grid_search.html (Chunks D06_v1_003, D06_v1_002, D06_v1_026)",D06_v1_003 | D06_v1_002 | D06_v1_005 | D06_v1_028 | D06_v1_026,D06 | D06 | D06 | D06 | D06,Grid search | Grid search | Grid search | Grid search | Grid search,None | None | None | None | None,https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html,0.7213 | 0.6836 | 0.6619 | 0.6435 | 0.6383,D06,https://scikit-learn.org/stable/modules/grid_search.html,True,True,True,True,D06,True,True
+Q17,comparison,What is the difference between GridSearchCV and RandomizedSearchCV?,D06,https://scikit-learn.org/stable/modules/grid_search.html,"GridSearchCV exhaustively evaluates all combinations from a predefined parameter grid, while RandomizedSearchCV samples a fixed number of candidates from specified parameter distributions. RandomizedSearchCV can be more efficient when the parameter space is large, because the computation budget can be controlled through the number of sampled iterations.","The difference between GridSearchCV and RandomizedSearchCV lies in how they search the hyperparameter space:
+
+- **GridSearchCV** performs an exhaustive search over a specified grid of parameter values. It evaluates all possible combinations of parameters provided in the parameter grid (`param_grid`). This means it tries every combination systematically.
+
+- **RandomizedSearchCV** performs a randomized search over parameters, where each setting is sampled from a distribution over possible parameter values. Instead of trying all combinations, it samples a fixed number (`n_iter`) of parameter settings from the specified distributions or lists. This allows specifying a computation budget independent of the number of parameters and possible values, and it can be more efficient especially when some parameters do not influence performance.
+
+In summary, GridSearchCV exhaustively evaluates all parameter combinations, while RandomizedSearchCV samples a fixed number of parameter combinations randomly from specified distributions, which can be more efficient and flexible.
+
+Sources:
+- ""Grid search"" - https://scikit-learn.org/stable/modules/grid_search.html (Chunks D06_v1_002, D06_v1_003, D06_v1_005)",D06_v1_005 | D06_v1_002 | D06_v1_003 | D06_v1_008 | D06_v1_004,D06 | D06 | D06 | D06 | D06,Grid search | Grid search | Grid search | Grid search | Grid search,None | None | None | None | None,https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/grid_search.html,0.7039 | 0.6569 | 0.6227 | 0.5896 | 0.5846,D06,https://scikit-learn.org/stable/modules/grid_search.html,True,True,True,True,D06,True,True
+Q18,decision-support,Why should hyperparameter tuning be combined with cross-validation?,D05/D06,https://scikit-learn.org/stable/modules/cross_validation.html; https://scikit-learn.org/stable/modules/grid_search.html,"Hyperparameter tuning should be combined with cross-validation because the goal is to select parameters that generalize well, not just parameters that perform well on one particular split. Cross-validation evaluates each candidate setting across multiple train/validation splits, giving a more reliable estimate of performance.","Hyperparameter tuning should be combined with cross-validation to ensure that the evaluation of the model's performance is reliable and unbiased. When tuning hyperparameters, parameters are adjusted to optimize the estimator's performance. If this tuning is done without proper validation, knowledge about the test set can leak into the model, causing evaluation metrics to no longer reflect the model's true generalization performance.
+
+Cross-validation helps solve this problem by splitting the training data into multiple folds, allowing the model to be trained and validated on different subsets of the data. This approach avoids the need for a separate validation set, which would reduce the amount of data available for training. By using cross-validation during hyperparameter tuning (as in GridSearchCV or RandomizedSearchCV), the model's hyperparameters are selected based on their performance across multiple folds, leading to a more robust and generalizable model.
+
+In summary, combining hyperparameter tuning with cross-validation allows for:
+
+- Reliable estimation of model performance without test set leakage.
+- Efficient use of data by avoiding the need for a separate validation set.
+- Robust selection of hyperparameters that generalize well to unseen data.
+
+Sources:
+- Cross-validation: https://scikit-learn.org/stable/modules/cross_validation.html
+- Grid search: https://scikit-learn.org/stable/modules/grid_search.html",D05_v1_003 | D06_v1_001 | D01_v1_006 | D06_v1_003 | D05_v1_036,D05 | D06 | D01 | D06 | D05,Cross-validation | Grid search | Getting Started | Grid search | Cross-validation,None | None | None | None | None,https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/cross_validation.html,0.5829 | 0.5159 | 0.5157 | 0.5016 | 0.4993,D05,https://scikit-learn.org/stable/modules/cross_validation.html,False,False,False,False,D05 | D06,True,True
+Q19,conceptual,"What is the difference between accuracy, precision, recall and F1-score?",D07,https://scikit-learn.org/stable/modules/model_evaluation.html,"Accuracy measures the fraction of correct predictions. Precision measures how many predicted positives are actually positive, while recall measures how many actual positives were correctly found. F1-score combines precision and recall as their harmonic mean, making it useful when both false positives and false negatives matter.","The difference between accuracy, precision, recall, and F1-score can be understood in terms of how they evaluate the performance of a classification model based on the counts of true positives (tp), false positives (fp), false negatives (fn), and true negatives (tn):
+
+- **Accuracy** measures the overall correctness of the model and is defined as the ratio of correctly predicted observations (both true positives and true negatives) to the total observations. It is not explicitly defined in the provided context, but it is implied as the proportion of correct predictions.
+
+- **Precision** is the ratio of true positives to the sum of true positives and false positives:
+  \[
+  \text{precision} = \frac{\text{tp}}{\text{tp} + \text{fp}}
+  \]
+  It measures how many of the predicted positive cases were actually positive, focusing on the quality of positive predictions.
+
+- **Recall** (also called sensitivity) is the ratio of true positives to the sum of true positives and false negatives:
+  \[
+  \text{recall} = \frac{\text{tp}}{\text{tp} + \text{fn}}
+  \]
+  It measures how many of the actual positive cases were correctly identified by the model, focusing on the ability to find all positive samples.
+
+- **F1-score** is the harmonic mean of precision and recall, providing a balance between the two:
+  \[
+  F_1 = 2 \times \frac{\text{precision} \times \text{recall}}{\text{precision} + \text{recall}}
+  \]
+  More generally, the F-measure with parameter \(\beta\) weights precision and recall differently:
+  \[
+  F_\beta = (1 + \beta^2) \frac{\text{precision} \times \text{recall}}{\beta^2 \text{precision} + \text{recall}}
+  \]
+  When \(\beta = 1\), precision and recall are equally weighted, which is the F1-score.
+
+In summary:
+- Accuracy measures overall correctness.
+- Precision measures correctness of positive predictions.
+- Recall measures completeness in finding positive cases.
+- F1-score balances precision and recall into a single metric.
+
+Sources:
+- ""Model evaluation"" - https://scikit-learn.org/stable/modules/model_evaluation.html (Chunks D07_v1_042, D07_v1_038, D07_v1_044, D07_v1_043)",D07_v1_042 | D07_v1_038 | D07_v1_044 | D07_v1_043 | D07_v1_039,D07 | D07 | D07 | D07 | D07,Model evaluation | Model evaluation | Model evaluation | Model evaluation | Model evaluation,None | None | None | None | None,https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html,0.6282 | 0.6039 | 0.5473 | 0.5283 | 0.4941,D07,https://scikit-learn.org/stable/modules/model_evaluation.html,True,True,True,True,D07,True,True
+Q20,decision-support,When is F1-score more useful than accuracy?,D07,https://scikit-learn.org/stable/modules/model_evaluation.html,"F1-score is more useful than accuracy when the balance between precision and recall matters, especially in classification problems where classes may be imbalanced. Accuracy can look high even when a model performs poorly on the minority class, while F1-score focuses on the positive class performance through precision and recall.","The F1-score is more useful than accuracy in situations where the class distribution is imbalanced or when the costs of false positives and false negatives are different. Accuracy simply measures the overall correctness of the model, but it can be misleading if one class dominates the dataset. In contrast, the F1-score is the harmonic mean of precision and recall, balancing the trade-off between false positives and false negatives. This makes the F1-score particularly valuable when you want to ensure a balance between precision (how many selected items are relevant) and recall (how many relevant items are selected), such as in cases where missing positive cases (false negatives) or incorrectly labeling negatives as positives (false positives) have significant consequences.
+
+Sources:
+- Model evaluation - https://scikit-learn.org/stable/modules/model_evaluation.html (Chunks D07_v1_042, D07_v1_043, D07_v1_038)",D07_v1_042 | D07_v1_043 | D07_v1_038 | D07_v1_007 | D07_v1_004,D07 | D07 | D07 | D07 | D07,Model evaluation | Model evaluation | Model evaluation | Model evaluation | Model evaluation,None | None | None | None | None,https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html,0.5351 | 0.5315 | 0.523 | 0.4908 | 0.489,D07,https://scikit-learn.org/stable/modules/model_evaluation.html,True,True,True,True,D07,True,True
+Q21,decision-support,Why can accuracy be misleading for imbalanced classification problems?,D07,https://scikit-learn.org/stable/modules/model_evaluation.html,"Accuracy can be misleading for imbalanced classification problems because a classifier may achieve a high accuracy score mainly by predicting the majority class. In such cases, metrics such as balanced accuracy, precision, recall and F1-score can provide a more informative view of performance on each class.","Accuracy can be misleading for imbalanced classification problems because it may give an inflated performance estimate when the classifier simply takes advantage of the imbalance in the test set. For example, if one class is much more frequent than others, a classifier that always predicts the majority class can achieve a high accuracy score without actually learning to distinguish between classes. This means the accuracy might be high even though the classifier performs poorly on the minority classes.
+
+Balanced accuracy is introduced to address this issue. It computes the average recall obtained on each class, effectively weighting each class equally regardless of its prevalence. This prevents inflated performance estimates on imbalanced datasets. In the binary case, balanced accuracy is the average of sensitivity (true positive rate) and specificity (true negative rate). If a classifier's accuracy is above chance only because it exploits the class imbalance, the balanced accuracy will appropriately drop to the chance level (e.g., \( \frac{1}{n\_classes} \)).
+
+Thus, accuracy alone can be misleading in imbalanced settings because it does not account for the distribution of classes and can be dominated by the majority class performance.
+
+Sources:
+- Model evaluation — scikit-learn documentation: https://scikit-learn.org/stable/modules/model_evaluation.html (Chunks D07_v1_028, D07_v1_029)",D07_v1_029 | D07_v1_030 | D07_v1_028 | D07_v1_119 | D07_v1_121,D07 | D07 | D07 | D07 | D07,Model evaluation | Model evaluation | Model evaluation | Model evaluation | Model evaluation,None | None | None | None | None,https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html,0.597 | 0.5878 | 0.5265 | 0.501 | 0.4952,D07,https://scikit-learn.org/stable/modules/model_evaluation.html,True,True,True,True,D07,True,True
+Q22,procedural,How can I evaluate a binary classifier using precision and recall?,D07,https://scikit-learn.org/stable/modules/model_evaluation.html,"A binary classifier can be evaluated using precision and recall by comparing its predicted labels with the true labels. Precision measures how reliable the positive predictions are, while recall measures how many actual positive cases were found. In scikit-learn, functions such as precision_score, recall_score, f1_score and precision_recall_fscore_support can be used for this type of evaluation.","You can evaluate a binary classifier using precision and recall in scikit-learn by using the functions `precision_score` and `recall_score`. These functions compute the precision and recall respectively from the true labels (`y_true`) and the predicted labels (`y_pred`) of your classifier.
+
+- `precision_score(y_true, y_pred)` computes the precision, which is the ratio of true positives to the sum of true positives and false positives.
+- `recall_score(y_true, y_pred)` computes the recall, which is the ratio of true positives to the sum of true positives and false negatives.
+
+Additionally, you can use the `precision_recall_curve` function to compute precision and recall values for different decision thresholds based on prediction scores, which helps in evaluating the classifier's performance across thresholds.
+
+Example usage:
+
+```python
+from sklearn.metrics import precision_score, recall_score, precision_recall_curve, average_precision_score
+
+# y_true: true binary labels
+# y_pred: predicted binary labels
+# y_scores: predicted scores or probabilities for the positive class
+
+precision = precision_score(y_true, y_pred)
+recall = recall_score(y_true, y_pred)
+
+precision_vals, recall_vals, thresholds = precision_recall_curve(y_true, y_scores)
+
+average_precision = average_precision_score(y_true, y_scores)
+```
+
+You can also visualize the precision-recall curve using `PrecisionRecallDisplay.from_estimator` or `PrecisionRecallDisplay.from_predictions`.
+
+References in the context provide examples and further explanations on how to use these functions for binary classification evaluation.
+
+Sources:
+- Model evaluation - metrics, https://scikit-learn.org/stable/modules/model_evaluation.html (Chunks D07_v1_040, D07_v1_044)",D07_v1_040 | D07_v1_041 | D07_v1_038 | D07_v1_061 | D07_v1_044,D07 | D07 | D07 | D07 | D07,Model evaluation | Model evaluation | Model evaluation | Model evaluation | Model evaluation,None | None | None | None | None,https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html | https://scikit-learn.org/stable/modules/model_evaluation.html,0.6221 | 0.6062 | 0.548 | 0.5375 | 0.5319,D07,https://scikit-learn.org/stable/modules/model_evaluation.html,True,True,True,True,D07,True,True
+Q23,conceptual,What does LogisticRegression do in scikit-learn?,D08,https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html,"LogisticRegression in scikit-learn is a classifier for logistic regression, also known as logit or MaxEnt. It implements regularized logistic regression using available solvers and can handle both dense and sparse input data.","LogisticRegression in scikit-learn is a classifier that implements regularized logistic regression (also known as logit or MaxEnt classifier). It supports various solvers to optimize the logistic regression model and applies regularization by default to prevent overfitting. LogisticRegression can handle both dense and sparse input data and supports different types of regularization (L1, L2, and Elastic-Net) depending on the solver used.
+
+It is suitable for binary and multiclass classification problems. For multiclass problems (with three or more classes), all solvers support multinomial logistic regression. The choice of solver and penalty affects the type of regularization and multiclass support.
+
+LogisticRegression provides methods to fit the model to data, predict class labels, predict class probabilities, and compute confidence scores (decision function) for samples.
+
+Example usage:
+```python
+from sklearn.datasets import load_iris
+from sklearn.linear_model import LogisticRegression
+
+X, y = load_iris(return_X_y=True)
+clf = LogisticRegression(random_state=0).fit(X, y)
+predictions = clf.predict(X[:2, :])
+probabilities = clf.predict_proba(X[:2, :])
+score = clf.score(X, y)
+```
+
+Sources:
+- LogisticRegression class documentation: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html (Chunks D08_v1_001, D08_v1_011, D08_v1_007)",D08_v1_001 | D08_v1_011 | D08_v1_007 | D08_v1_020 | D04_v1_008,D08 | D08 | D08 | D08 | D04,LogisticRegression | LogisticRegression | LogisticRegression | LogisticRegression | train_test_split,None | None | None | None | None,https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html | https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html | https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html | https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html | https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html,0.5632 | 0.4884 | 0.4417 | 0.4327 | 0.4312,D08,https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html,True,True,True,True,D08,True,True
+Q24,conceptual,Which parameters of LogisticRegression are commonly used to control regularization?,D08,https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html,"Common parameters of LogisticRegression related to regularization include C, penalty and l1_ratio. The parameter C is the inverse of regularization strength, so smaller values specify stronger regularization. The regularization type can involve L1, L2 or Elastic-Net-style penalties depending on the configuration and solver.","The parameters of `LogisticRegression` commonly used to control regularization are:
+
+1. **C**: This is the inverse of regularization strength; it must be a positive float. Smaller values of `C` specify stronger regularization. Setting `C=np.inf` results in unpenalized logistic regression.
+
+2. **penalty**: This parameter specifies the norm used in the penalization. The options include `'l1'`, `'l2'`, `'elasticnet'`, or `'none'` (no regularization). The choice of penalty affects the type of regularization applied.
+
+3. **l1_ratio**: This is the Elastic-Net mixing parameter, with values between 0 and 1. Setting `l1_ratio=1` gives a pure L1 penalty, `l1_ratio=0` gives a pure L2 penalty, and any value between 0 and 1 gives a combination of L1 and L2 penalties (Elastic-Net). Note that this parameter is only used when `penalty='elasticnet'`.
+
+Additionally, the choice of **solver** affects which penalties are supported.
+
+Sources:
+- LogisticRegression class documentation: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html (Chunks D08_v1_001 and D08_v1_003)",D08_v1_001 | D08_v1_003 | D09_v1_005 | D06_v1_029 | D09_v1_031,D08 | D08 | D09 | D06 | D09,LogisticRegression | LogisticRegression | Random forests | Grid search | Random forests,None | None | None | None | None,https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html | https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/grid_search.html | https://scikit-learn.org/stable/modules/ensemble.html#forest,0.5317 | 0.5157 | 0.5007 | 0.4958 | 0.4897,D08,https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html,True,True,True,True,D08,True,True
+Q25,decision-support,Why might LogisticRegression require feature scaling?,D02/D08,https://scikit-learn.org/stable/modules/preprocessing.html; https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html,"LogisticRegression may require feature scaling because it is a linear model with regularization, and regularizers can be affected when features have very different scales. Standardizing features helps make them centered around zero with comparable variance, which can improve optimization and prevent features with much larger variance from dominating the learning objective.","LogisticRegression might require feature scaling because many learning algorithms, including linear models like logistic regression, benefit from standardization of the dataset. Standardization typically involves centering the data by removing the mean and scaling it to have unit variance. This is important because logistic regression uses regularization by default, and the optimization algorithms (solvers) used in logistic regression can behave badly if the individual features do not more or less look like standard normally distributed data (Gaussian with zero mean and unit variance).
+
+Feature scaling helps in:
+- Improving the robustness of the model to features with very small standard deviations.
+- Ensuring that the regularization term penalizes all features equally.
+- Enhancing the convergence speed of the optimization algorithms used in logistic regression.
+
+For example, using a pipeline with `StandardScaler` before `LogisticRegression` is a common practice to apply scaling on training data and testing data consistently without data leakage.
+
+Sources:
+- Preprocessing data: https://scikit-learn.org/stable/modules/preprocessing.html
+- LogisticRegression: https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",D02_v1_005 | D02_v1_004 | D02_v1_001 | D08_v1_001 | D04_v1_007,D02 | D02 | D02 | D08 | D04,Preprocessing data | Preprocessing data | Preprocessing data | LogisticRegression | train_test_split,None | None | None | None | None,https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html | https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html,0.534 | 0.4862 | 0.4784 | 0.4644 | 0.4587,D02,https://scikit-learn.org/stable/modules/preprocessing.html,False,False,False,False,D02 | D08,True,True
+Q26,conceptual,What is a RandomForestClassifier in scikit-learn?,D09/D10,https://scikit-learn.org/stable/modules/ensemble.html; https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html,RandomForestClassifier is a classifier based on a random forest. It fits multiple decision tree classifiers on different sub-samples of the dataset and combines their predictions using averaging. This helps improve predictive accuracy and control overfitting compared with a single decision tree.,"A RandomForestClassifier in scikit-learn is a meta estimator that fits a number of decision tree classifiers on various sub-samples of the dataset and uses averaging to improve the predictive accuracy and control over-fitting. Each tree in the forest is built from a bootstrap sample (a sample drawn with replacement) of the training set, and during the construction of each tree, a random subset of features is considered. This randomness helps to decrease the variance of the forest estimator, as individual decision trees tend to have high variance and overfit. By averaging the predictions of multiple trees, the RandomForestClassifier achieves better generalization.
+
+The RandomForestClassifier class has many parameters such as `n_estimators` (number of trees), `criterion` (function to measure the quality of a split), `max_depth`, `min_samples_split`, `max_features`, and others to control the behavior of the forest.
+
+In summary, RandomForestClassifier is an ensemble learning method that builds multiple decision trees and merges their results to improve classification performance and reduce overfitting.
+
+Sources:
+- RandomForestClassifier — scikit-learn documentation: https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
+- Random forests — scikit-learn documentation: https://scikit-learn.org/stable/modules/ensemble.html#forest",D10_v1_001 | D09_v1_038 | D09_v1_037 | D01_v1_001 | D01_v1_002,D10 | D09 | D09 | D01 | D01,RandomForestClassifier | Random forests | Random forests | Getting Started | Getting Started,None | None | None | None | None,https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/getting_started.html,0.5455 | 0.5201 | 0.5066 | 0.4848 | 0.4845,D10,https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html,False,False,False,False,D09 | D10,True,True
+Q27,conceptual,How does a random forest combine multiple decision trees?,D09/D10,https://scikit-learn.org/stable/modules/ensemble.html; https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html,"A random forest combines multiple decision trees by training them on different sub-samples of the data. Each tree produces a prediction, and the forest aggregates the predictions, typically through averaging or voting, to produce a final prediction that is more robust than a single tree.","A random forest combines multiple decision trees by building each tree from a bootstrap sample (a sample drawn with replacement) of the training set and considering a random subset of features at each split. This randomness in both the data samples and the features helps to create diverse trees with somewhat decoupled prediction errors. The predictions of these individual trees are then combined by averaging their probabilistic predictions (in the case of classifiers) or by averaging their outputs (in regression). This averaging process reduces the variance of the overall model, as some errors from individual trees can cancel out, leading to a more robust and better-performing model compared to a single decision tree.
+
+In summary, random forests combine multiple decision trees by averaging their predictions, where each tree is trained on a random subset of the data and features, injecting randomness to reduce variance and improve generalization.
+
+Sources:
+- ""Random forests"" - https://scikit-learn.org/stable/modules/ensemble.html#forest (Chunks D09_v1_039, D09_v1_038, D09_v1_037)",D09_v1_039 | D09_v1_038 | D09_v1_037 | D09_v1_049 | D09_v1_066,D09 | D09 | D09 | D09 | D09,Random forests | Random forests | Random forests | Random forests | Random forests,None | None | None | None | None,https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/ensemble.html#forest,0.6175 | 0.6057 | 0.5641 | 0.4665 | 0.465,D09,https://scikit-learn.org/stable/modules/ensemble.html#forest,False,False,False,False,D09 | D10,True,True
+Q28,conceptual,Which RandomForestClassifier parameters can control model complexity?,D10,https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html,"Important RandomForestClassifier parameters that control model complexity include n_estimators, max_depth, min_samples_split, min_samples_leaf, max_features, max_leaf_nodes and ccp_alpha. For example, n_estimators controls the number of trees, while max_depth, min_samples_split and min_samples_leaf affect how large or complex each tree can become.","The parameters of RandomForestClassifier that can control model complexity include:
+
+- **max_depth**: Controls the maximum depth of each tree. Limiting the depth can reduce model complexity and overfitting.
+- **min_samples_split**: The minimum number of samples required to split an internal node. Increasing this value can reduce complexity by preventing the model from creating nodes that capture noise.
+- **min_samples_leaf**: The minimum number of samples required to be at a leaf node. Larger values can smooth the model and reduce complexity.
+- **max_leaf_nodes**: Limits the number of leaf nodes in each tree, which directly controls the complexity of the trees.
+
+These parameters help in reducing the size of the model and controlling overfitting by limiting how deep or complex each individual tree in the forest can grow.
+
+Sources:
+- ""Random forests"" — https://scikit-learn.org/stable/modules/ensemble.html#forest (Chunk ID: D09_v1_044)",D09_v1_044 | D01_v1_007 | D09_v1_050 | D09_v1_038 | D06_v1_002,D09 | D01 | D09 | D09 | D06,Random forests | Getting Started | Random forests | Random forests | Grid search,None | None | None | None | None,https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/grid_search.html,0.5354 | 0.4971 | 0.4518 | 0.4473 | 0.4445,D09,https://scikit-learn.org/stable/modules/ensemble.html#forest,False,False,False,False,D10,False,False
+Q29,decision-support,When might RandomForestClassifier be preferred over LogisticRegression?,D08/D10,https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html; https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html,"RandomForestClassifier may be preferred over LogisticRegression when the relationship between features and the target is non-linear or when interactions between features are important. LogisticRegression is a regularized linear classifier, while RandomForestClassifier is an ensemble of decision trees that can model more complex patterns without requiring the same linear decision boundary assumption.","The available context does not explicitly compare RandomForestClassifier and LogisticRegression or state when RandomForestClassifier might be preferred over LogisticRegression. However, based on the information about RandomForestClassifier, it is an ensemble method that reduces variance by averaging predictions from multiple randomized decision trees, which can handle complex, non-linear relationships and interactions between features. This suggests that RandomForestClassifier might be preferred over LogisticRegression when the data has complex patterns that are not well captured by a linear model like LogisticRegression, or when reducing variance and avoiding overfitting is important.
+
+For a more precise answer, additional context comparing these two classifiers directly would be needed.
+
+Sources:
+- Random forests — https://scikit-learn.org/stable/modules/ensemble.html#forest",D09_v1_041 | D09_v1_040 | D09_v1_039 | D09_v1_038 | D09_v1_037,D09 | D09 | D09 | D09 | D09,Random forests | Random forests | Random forests | Random forests | Random forests,None | None | None | None | None,https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/ensemble.html#forest,0.4659 | 0.4557 | 0.4556 | 0.4492 | 0.4487,D09,https://scikit-learn.org/stable/modules/ensemble.html#forest,False,False,False,False,D08 | D10,False,False
+Q30,synthesis,"How can a complete classification workflow combine preprocessing, model training, cross-validation and evaluation?",D02/D03/D05/D06/D07,https://scikit-learn.org/stable/modules/preprocessing.html; https://scikit-learn.org/stable/modules/compose.html; https://scikit-learn.org/stable/modules/cross_validation.html; https://scikit-learn.org/stable/modules/grid_search.html; https://scikit-learn.org/stable/modules/model_evaluation.html,"A complete classification workflow can combine preprocessing, model training, cross-validation, hyperparameter tuning and evaluation by using a Pipeline. For example, preprocessing steps such as scaling can be chained with a classifier, then evaluated with cross-validation and tuned with GridSearchCV. Finally, the selected model can be evaluated using suitable classification metrics such as accuracy, precision, recall or F1-score.","A complete classification workflow that combines preprocessing, model training, cross-validation, and evaluation in scikit-learn can be structured as follows:
+
+1. **Data Splitting**: First, split the dataset into training and test sets using `train_test_split`. The test set is held out for final evaluation to avoid overfitting.
+
+2. **Preprocessing**: Preprocessing steps such as standardization or feature selection should be learned from the training data only and then applied to the test data. For example, using `StandardScaler`, fit it on the training data and transform both training and test data accordingly.
+
+3. **Model Training**: Train the model on the preprocessed training data.
+
+4. **Cross-validation**: Use cross-validation (e.g., k-fold cross-validation) on the training set to estimate the model's performance and tune hyperparameters if needed. This involves splitting the training data into k folds, training on k-1 folds, and validating on the remaining fold, repeated k times. The average performance metric (e.g., accuracy) across folds is computed.
+
+5. **Pipeline**: To streamline preprocessing and model training, use a `Pipeline` that chains preprocessing steps and the estimator. This ensures that during cross-validation, preprocessing is correctly applied within each fold without data leakage.
+
+6. **Evaluation**: After cross-validation and hyperparameter tuning, evaluate the final model on the held-out test set to get an unbiased estimate of its generalization performance.
+
+Example snippet from the context:
+
+```python
+from sklearn import preprocessing, svm
+from sklearn.model_selection import train_test_split
+
+# Split data
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.4, random_state=0)
+
+# Preprocessing
+scaler = preprocessing.StandardScaler().fit(X_train)
+X_train_transformed = scaler.transform(X_train)
+
+# Model training
+clf = svm.SVC(C=1).fit(X_train_transformed, y_train)
+
+# Transform test data and evaluate
+X_test_transformed = scaler.transform(X_test)
+score = clf.score(X_test_transformed, y_test)
+```
+
+Using a `Pipeline` simplifies this process and integrates well with cross-validation:
+
+```python
+from sklearn.pipeline import make_pipeline
+from sklearn.model_selection import cross_val_score
+from sklearn.svm import SVC
+from sklearn.preprocessing import StandardScaler
+
+pipeline = make_pipeline(StandardScaler(), SVC(C=1))
+scores = cross_val_score(pipeline, X, y, cv=5)
+print(scores.mean())
+```
+
+This workflow ensures that preprocessing, model training, cross-validation, and evaluation are properly combined without data leakage, providing reliable estimates of model performance.
+
+Sources:
+- Cross-validation: https://scikit-learn.org/stable/modules/cross_validation.html (Chunks D05_v1_004, D05_v1_003, D05_v1_007)
+- Getting Started: https://scikit-learn.org/stable/getting_started.html (Chunk D01_v1_006)",D05_v1_004 | D05_v1_003 | D05_v1_007 | D01_v1_006 | D05_v1_001,D05 | D05 | D05 | D01 | D05,Cross-validation | Cross-validation | Cross-validation | Getting Started | Cross-validation,None | None | None | None | None,https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/modules/cross_validation.html | https://scikit-learn.org/stable/getting_started.html | https://scikit-learn.org/stable/modules/cross_validation.html,0.521 | 0.5143 | 0.5026 | 0.4747 | 0.4729,D05,https://scikit-learn.org/stable/modules/cross_validation.html,False,False,False,False,D02 | D03 | D05 | D06 | D07,True,True

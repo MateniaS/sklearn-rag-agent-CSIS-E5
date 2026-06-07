@@ -1,0 +1,11 @@
+doc_id,title,topic,url,why_selected
+D01,Getting Started,general_intro,https://scikit-learn.org/stable/getting_started.html,"Περιέχει βασική εισαγωγή στο scikit-learn, fitting, predicting, transformers, pipelines και evaluation."
+D02,Preprocessing data,preprocessing,https://scikit-learn.org/stable/modules/preprocessing.html,"Χρήσιμο για scaling, normalization και preprocessing βήματα πριν την εκπαίδευση μοντέλων."
+D03,Pipeline and composite estimators,pipelines,https://scikit-learn.org/stable/modules/compose.html,"Χρήσιμο για Pipeline, αποφυγή data leakage και σωστή οργάνωση machine learning workflow."
+D04,train_test_split,train_test_split,https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html,"Χρήσιμο για βασικό διαχωρισμό δεδομένων σε train και test sets."
+D05,Cross-validation,cross_validation,https://scikit-learn.org/stable/modules/cross_validation.html,"Χρήσιμο για αξιολόγηση μοντέλων με cross-validation και folds."
+D06,Grid search,hyperparameter_tuning,https://scikit-learn.org/stable/modules/grid_search.html,"Χρήσιμο για GridSearchCV, RandomizedSearchCV και hyperparameter tuning."
+D07,Model evaluation,metrics,https://scikit-learn.org/stable/modules/model_evaluation.html,"Χρήσιμο για accuracy, precision, recall, F1-score και scoring metrics."
+D08,LogisticRegression,logistic_regression,https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html,"Χρήσιμο για Logistic Regression, parameters, regularization και classification."
+D09,Random forests,random_forest,https://scikit-learn.org/stable/modules/ensemble.html#forest,"Χρήσιμο για τη θεωρητική εξήγηση των Random Forests και ensemble methods."
+D10,RandomForestClassifier,random_forest_classifier,https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html,"Χρήσιμο για parameters όπως n_estimators, max_depth και class_weight."

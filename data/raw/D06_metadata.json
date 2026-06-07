@@ -1,0 +1,10 @@
+{
+  "doc_id": "D06",
+  "title": "Grid search",
+  "topic": "hyperparameter_tuning",
+  "url": "https://scikit-learn.org/stable/modules/grid_search.html",
+  "why_selected": "Χρήσιμο για GridSearchCV, RandomizedSearchCV και hyperparameter tuning.",
+  "text_file": "D06.txt",
+  "num_characters": 31284,
+  "num_words": 4656
+}

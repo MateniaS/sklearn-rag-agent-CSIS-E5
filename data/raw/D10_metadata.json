@@ -1,0 +1,10 @@
+{
+  "doc_id": "D10",
+  "title": "RandomForestClassifier",
+  "topic": "random_forest_classifier",
+  "url": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html",
+  "why_selected": "Χρήσιμο για parameters όπως n_estimators, max_depth και class_weight.",
+  "text_file": "D10.txt",
+  "num_characters": 22341,
+  "num_words": 3358
+}

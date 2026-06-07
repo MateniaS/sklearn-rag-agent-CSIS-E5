@@ -1,0 +1,2 @@
+question_id,question,expected_source,expected_source_ids_parsed,top1_doc_id,retrieved_doc_ids,retrieved_scores
+Q28,Which RandomForestClassifier parameters can control model complexity?,D10,D10,D09,D09 | D01 | D06 | D09 | D09,0.5829 | 0.5826 | 0.491 | 0.4895 | 0.4828

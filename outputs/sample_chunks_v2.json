@@ -1,0 +1,62 @@
+[
+  {
+    "chunk_id": "D01_v2_001",
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "section": "Getting Started #",
+    "heading_level": 1,
+    "chunking_strategy": "v2_structured",
+    "chunk_index": 1,
+    "text": "Scikit-learn is an open source machine learning library that supports supervised and unsupervised learning. It also provides various tools for model fitting, data preprocessing, model selection, model evaluation, and many other utilities.\nThe purpose of this guide is to illustrate some of the main features of scikit-learn . It assumes basic working knowledge of machine learning practices (model fitting, predicting, cross-validation, etc.). Please refer to our installation instructions to install scikit-learn , or jump to the Next steps section for additional guidance on using scikit-learn ."
+  },
+  {
+    "chunk_id": "D01_v2_002",
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "section": "Fitting and predicting: estimator basics #",
+    "heading_level": 2,
+    "chunking_strategy": "v2_structured",
+    "chunk_index": 2,
+    "text": "Scikit-learn provides dozens of built-in machine learning algorithms and models, called estimators . Each estimator can be fitted to some data using its fit method.\nHere is a simple example where we fit a RandomForestClassifier to some very basic data:\n>>> from sklearn.ensemble import RandomForestClassifier >>> clf = RandomForestClassifier ( random_state = 0 ) >>> X = [[ 1 , 2 , 3 ], # 2 samples, 3 features ... [ 11 , 12 , 13 ]] >>> y = [ 0 , 1 ] # classes of each sample >>> clf . fit ( X , y ) RandomForestClassifier(random_state=0)\nThe fit method generally accepts 2 inputs:\nThe samples matrix (or design matrix) X . The size of X is typically (n_samples, n_features) , which means that samples are represented as rows and features are represented as columns.\nThe samples matrix (or design matrix) X . The size of X is typically (n_samples, n_features) , which means that samples are represented as rows and features are represented as columns.\nThe target values y which are real numbers for regression tasks, or integers for classification (or any other discrete set of values). For unsupervised learning tasks, y does not need to be specified. y is usually a 1d array where the i th entry corresponds to the target of the i th sample (row) of X .\nThe target values y which are real numbers for regression tasks, or integers for classification (or any other discrete set of values). For unsupervised learning tasks, y does not need to be specified. y is usually a 1d array where the i th entry corresponds to the target of the i th sample (row) of X .\nBoth X and y are usually expected to be numpy arrays or equivalent array-like data types, though some estimators work with other formats such as sparse matrices."
+  },
+  {
+    "chunk_id": "D01_v2_003",
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "section": "Fitting and predicting: estimator basics #",
+    "heading_level": 2,
+    "chunking_strategy": "v2_structured",
+    "chunk_index": 3,
+    "text": "Once the estimator is fitted, it can be used for predicting target values of new data. You don’t need to re-train the estimator:\n>>> clf . predict ( X ) # predict classes of the training data array([0, 1]) >>> clf . predict ([[ 4 , 5 , 6 ], [ 14 , 15 , 16 ]]) # predict classes of new data array([0, 1])\nYou can check Choosing the right estimator on how to choose the right model for your use case."
+  },
+  {
+    "chunk_id": "D01_v2_004",
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "section": "Transformers and pre-processors #",
+    "heading_level": 2,
+    "chunking_strategy": "v2_structured",
+    "chunk_index": 4,
+    "text": "Machine learning workflows are often composed of different parts. A typical pipeline consists of a pre-processing step that transforms or imputes the data, and a final predictor that predicts target values.\nIn scikit-learn , pre-processors and transformers follow the same API as the estimator objects (they actually all inherit from the same BaseEstimator class). The transformer objects don’t have a predict method but rather a transform method that outputs a newly transformed sample matrix X :\n>>> from sklearn.preprocessing import StandardScaler >>> X = [[ 0 , 15 ], ... [ 1 , - 10 ]] >>> # scale data according to computed scaling values >>> StandardScaler () . fit ( X ) . transform ( X ) array([[-1., 1.], [ 1., -1.]])\nSometimes, you want to apply different transformations to different features: the ColumnTransformer is designed for these use-cases."
+  },
+  {
+    "chunk_id": "D01_v2_005",
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "section": "Pipelines: chaining pre-processors and estimators #",
+    "heading_level": 2,
+    "chunking_strategy": "v2_structured",
+    "chunk_index": 5,
+    "text": "Transformers and estimators (predictors) can be combined together into a single unifying object: a Pipeline . The pipeline offers the same API as a regular estimator: it can be fitted and used for prediction with fit and predict . As we will see later, using a pipeline will also prevent you from data leakage, i.e. disclosing some testing data in your training data.\nIn the following example, we load the Iris dataset , split it into train and test sets, and compute the accuracy score of a pipeline on the test data:\n>>> from sklearn.preprocessing import StandardScaler >>> from sklearn.linear_model import LogisticRegression >>> from sklearn.pipeline import make_pipeline >>> from sklearn.datasets import load_iris >>> from sklearn.model_selection import train_test_split >>> from sklearn.metrics import accuracy_score ... >>> # create a pipeline object >>> pipe = make_pipeline ( ... StandardScaler (), ... LogisticRegression () ... ) ... >>> # load the iris dataset and split it into train and test sets >>> X , y = load_iris ( return_X_y = True ) >>> X_train , X_test , y_train , y_test = train_test_split ( X , y , random_state = 0 ) ... >>> # fit the whole pipeline >>> pipe . fit ( X_train , y_train ) Pipeline(steps=[('standardscaler', StandardScaler()), ('logisticregression', LogisticRegression())]) >>> # we can now use it like any other estimator >>> accuracy_score ( pipe . predict ( X_test ), y_test ) 0.97..."
+  }
+]

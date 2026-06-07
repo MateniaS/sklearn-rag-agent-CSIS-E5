@@ -1,0 +1,11 @@
+doc_id,title,topic,num_chunks,avg_chunk_length,min_chunk_length,max_chunk_length
+D01,Getting Started,general_intro,10,1156.7,771,1200
+D02,Preprocessing data,preprocessing,50,1194.86,967,1200
+D03,Pipeline and composite estimators,pipelines,23,1156.26,200,1200
+D04,train_test_split,train_test_split,11,1111.0,223,1200
+D05,Cross-validation,cross_validation,39,1182.97,559,1200
+D06,Grid search,hyperparameter_tuning,32,1170.97,284,1200
+D07,Model evaluation,metrics,122,1188.6,28,1200
+D08,LogisticRegression,logistic_regression,23,1151.22,143,1200
+D09,Random forests,random_forest,69,1185.35,221,1200
+D10,RandomForestClassifier,random_forest_classifier,23,1162.39,341,1200

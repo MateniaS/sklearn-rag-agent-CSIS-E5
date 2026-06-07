@@ -1,0 +1,10 @@
+{
+  "doc_id": "D08",
+  "title": "LogisticRegression",
+  "topic": "logistic_regression",
+  "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+  "why_selected": "Χρήσιμο για Logistic Regression, parameters, regularization και classification.",
+  "text_file": "D08.txt",
+  "num_characters": 22143,
+  "num_words": 3193
+}

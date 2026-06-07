@@ -1,0 +1,13 @@
+question_id,question,expected_source,top1_doc_id,retrieved_doc_ids,retrieved_scores
+Q04,When should preprocessing be fitted only on the training data?,D02/D03,D05,D05 | D02 | D03 | D05 | D01,0.4593 | 0.4539 | 0.441 | 0.4358 | 0.42
+Q05,What is the role of transformers in a scikit-learn workflow?,D01/D02,D03,D03 | D01 | D02 | D02 | D01,0.5637 | 0.5634 | 0.5298 | 0.5137 | 0.5127
+Q06,How can I create a Pipeline with StandardScaler and LogisticRegression?,D03/D08,D02,D02 | D01 | D02 | D01 | D03,0.6256 | 0.5944 | 0.5402 | 0.5263 | 0.4807
+Q09,Can pipeline parameters be tuned using grid search?,D03/D06,D03,D03 | D06 | D06 | D06 | D03,0.6591 | 0.6311 | 0.5935 | 0.5859 | 0.5802
+Q11,Why is it useful to keep a separate test set?,D04/D05,D05,D05 | D05 | D05 | D05 | D05,0.5923 | 0.4556 | 0.4526 | 0.4334 | 0.4249
+Q18,Why should hyperparameter tuning be combined with cross-validation?,D05/D06,D05,D05 | D06 | D01 | D06 | D05,0.5829 | 0.5159 | 0.5157 | 0.5016 | 0.4993
+Q25,Why might LogisticRegression require feature scaling?,D02/D08,D02,D02 | D02 | D02 | D08 | D04,0.534 | 0.4862 | 0.4784 | 0.4644 | 0.4587
+Q26,What is a RandomForestClassifier in scikit-learn?,D09/D10,D10,D10 | D09 | D09 | D01 | D01,0.5455 | 0.5201 | 0.5066 | 0.4848 | 0.4845
+Q27,How does a random forest combine multiple decision trees?,D09/D10,D09,D09 | D09 | D09 | D09 | D09,0.6175 | 0.6057 | 0.5641 | 0.4665 | 0.465
+Q28,Which RandomForestClassifier parameters can control model complexity?,D10,D09,D09 | D01 | D09 | D09 | D06,0.5354 | 0.4971 | 0.4518 | 0.4473 | 0.4445
+Q29,When might RandomForestClassifier be preferred over LogisticRegression?,D08/D10,D09,D09 | D09 | D09 | D09 | D09,0.4659 | 0.4557 | 0.4556 | 0.4492 | 0.4487
+Q30,"How can a complete classification workflow combine preprocessing, model training, cross-validation and evaluation?",D02/D03/D05/D06/D07,D05,D05 | D05 | D05 | D01 | D05,0.521 | 0.5143 | 0.5026 | 0.4747 | 0.4729

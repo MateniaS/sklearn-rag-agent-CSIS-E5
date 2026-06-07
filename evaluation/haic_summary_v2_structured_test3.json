@@ -1,0 +1,10 @@
+{
+  "run_name": "v2_structured_test3",
+  "total_questions": 3,
+  "mean_task_completion": 5.0,
+  "mean_user_effort_reduction": 5.0,
+  "mean_actionability": 4.333333333333333,
+  "mean_trust_grounding": 5.0,
+  "mean_learning_support": 5.0,
+  "mean_overall_haic_score": 4.866666666666667
+}

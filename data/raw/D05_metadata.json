@@ -1,0 +1,10 @@
+{
+  "doc_id": "D05",
+  "title": "Cross-validation",
+  "topic": "cross_validation",
+  "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+  "why_selected": "Χρήσιμο για αξιολόγηση μοντέλων με cross-validation και folds.",
+  "text_file": "D05.txt",
+  "num_characters": 38559,
+  "num_words": 6637
+}

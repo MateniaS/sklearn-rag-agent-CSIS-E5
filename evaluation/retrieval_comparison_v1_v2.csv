@@ -1,0 +1,31 @@
+question_id,question,expected_source,v1_expected_source_found_top_k,v1_top1_expected_source,v1_top1_doc_id,v2_expected_source_found_top_k,v2_top1_expected_source,v2_top1_doc_id
+Q01,What is the purpose of feature scaling in scikit-learn?,D02,True,True,D02,True,True,D02
+Q02,How does StandardScaler transform numerical features?,D02,True,True,D02,True,True,D02
+Q03,Why can feature scaling improve the performance of some machine learning algorithms?,D02,True,True,D02,True,True,D02
+Q04,When should preprocessing be fitted only on the training data?,D02/D03,False,False,D05,False,False,D01
+Q05,What is the role of transformers in a scikit-learn workflow?,D01/D02,False,False,D03,False,False,D01
+Q06,How can I create a Pipeline with StandardScaler and LogisticRegression?,D03/D08,False,False,D02,False,False,D02
+Q07,Why are pipelines useful in machine learning workflows?,D03,True,False,D01,True,True,D03
+Q08,How do pipelines help reduce the risk of data leakage?,D03,True,False,D01,True,True,D03
+Q09,Can pipeline parameters be tuned using grid search?,D03/D06,False,False,D03,False,False,D06
+Q10,How does train_test_split divide data into training and testing sets?,D04,True,False,D05,True,False,D05
+Q11,Why is it useful to keep a separate test set?,D04/D05,False,False,D05,False,False,D05
+Q12,What is cross-validation used for in model evaluation?,D05,True,True,D05,True,False,D01
+Q13,How does k-fold cross-validation evaluate an estimator?,D05,True,True,D05,True,True,D05
+Q14,When is cross-validation preferable to a single train/test split?,D05,True,True,D05,True,True,D05
+Q15,What is GridSearchCV used for?,D06,True,True,D06,True,True,D06
+Q16,How can GridSearchCV help tune hyperparameters?,D06,True,True,D06,True,True,D06
+Q17,What is the difference between GridSearchCV and RandomizedSearchCV?,D06,True,True,D06,True,True,D06
+Q18,Why should hyperparameter tuning be combined with cross-validation?,D05/D06,False,False,D05,False,False,D05
+Q19,"What is the difference between accuracy, precision, recall and F1-score?",D07,True,True,D07,True,True,D07
+Q20,When is F1-score more useful than accuracy?,D07,True,True,D07,True,True,D07
+Q21,Why can accuracy be misleading for imbalanced classification problems?,D07,True,True,D07,True,True,D07
+Q22,How can I evaluate a binary classifier using precision and recall?,D07,True,True,D07,True,True,D07
+Q23,What does LogisticRegression do in scikit-learn?,D08,True,True,D08,True,True,D08
+Q24,Which parameters of LogisticRegression are commonly used to control regularization?,D08,True,True,D08,True,True,D08
+Q25,Why might LogisticRegression require feature scaling?,D02/D08,False,False,D02,False,False,D02
+Q26,What is a RandomForestClassifier in scikit-learn?,D09/D10,False,False,D10,False,False,D09
+Q27,How does a random forest combine multiple decision trees?,D09/D10,False,False,D09,False,False,D09
+Q28,Which RandomForestClassifier parameters can control model complexity?,D10,False,False,D09,False,False,D09
+Q29,When might RandomForestClassifier be preferred over LogisticRegression?,D08/D10,False,False,D09,False,False,D09
+Q30,"How can a complete classification workflow combine preprocessing, model training, cross-validation and evaluation?",D02/D03/D05/D06/D07,False,False,D05,False,False,D05

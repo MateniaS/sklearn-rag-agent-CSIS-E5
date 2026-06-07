@@ -1,0 +1,10 @@
+{
+  "doc_id": "D09",
+  "title": "Random forests",
+  "topic": "random_forest",
+  "url": "https://scikit-learn.org/stable/modules/ensemble.html#forest",
+  "why_selected": "Χρήσιμο για τη θεωρητική εξήγηση των Random Forests και ensemble methods.",
+  "text_file": "D09.txt",
+  "num_characters": 68221,
+  "num_words": 10413
+}

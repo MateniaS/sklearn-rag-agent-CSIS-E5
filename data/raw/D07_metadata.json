@@ -1,0 +1,10 @@
+{
+  "doc_id": "D07",
+  "title": "Model evaluation",
+  "topic": "metrics",
+  "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+  "why_selected": "Χρήσιμο για accuracy, precision, recall, F1-score και scoring metrics.",
+  "text_file": "D07.txt",
+  "num_characters": 121029,
+  "num_words": 18630
+}

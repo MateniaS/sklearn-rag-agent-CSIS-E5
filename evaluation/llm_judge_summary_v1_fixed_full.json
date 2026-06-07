@@ -1,0 +1,10 @@
+{
+  "run_name": "v1_fixed_full",
+  "collection_name": "sklearn_rag_v1_fixed",
+  "total_questions": 30,
+  "mean_answer_relevancy": 4.966666666666667,
+  "mean_faithfulness": 4.966666666666667,
+  "mean_context_precision": 4.6,
+  "mean_context_recall": 4.566666666666666,
+  "mean_expected_answer_alignment": 4.966666666666667
+}

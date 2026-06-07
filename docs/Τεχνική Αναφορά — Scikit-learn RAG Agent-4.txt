@@ -1,0 +1,144 @@
+﻿🎀 Αναφορά
+Περιεχόμενα
+1. Εισαγωγή
+2. Στόχος του συστήματος
+3. Corpus και θεματικό πεδίο
+4. Αρχιτεκτονική συστήματος
+5. Ingestion και chunking strategies
+6. Metadata schema
+7. RAG pipeline
+8. Agent architecture
+9. Evaluation methodology
+10. Αποτελέσματα αξιολόγησης
+11. HAIC benchmarking
+12. Παρατηρησιμότητα με Langfuse
+13. Production setup / Docker
+14. Limitations και επόμενα βήματα
+15. Δήλωση συνεισφοράς μελών
+
+
+
+
+1. Εισαγωγή.
+Η παρούσα εργασία αφορά την ανάπτυξη ενός Agentic Retrieval-Augmented Generation συστήματος για την υποστήριξη χρηστών που αναζητούν πληροφορίες στο documentation του scikit-learn. Το σύστημα θα μπορεί να απαντά σε ερωτήσεις σχετικές με supervised machine learning workflows, όπως preprocessing, pipelines, classification models, evaluation metrics, cross-validation και hyperparameter tuning.
+
+
+2. Στόχος του συστήματος.
+Στόχος του συστήματος είναι να βοηθά αρχάριους και μεσαίου επιπέδου χρήστες της Python και της μηχανικής μάθησης να βρίσκουν τεκμηριωμένες απαντήσεις βασισμένες στο επίσημο scikit-learn documentation. Το σύστημα δεν βασίζεται μόνο στις γενικές γνώσεις ενός LLM, αλλά ανακτά σχετικά αποσπάσματα από το corpus και παράγει απαντήσεις grounded στο διαθέσιμο context.
+
+
+3. Corpus και θεματικό πεδίο.
+Το corpus της εργασίας θα αποτελείται από επιλεγμένες σελίδες του επίσημου scikit-learn documentation. Το θεματικό πεδίο περιορίζεται σε supervised classification workflows και περιλαμβάνει ενότητες σχετικές με preprocessing, pipelines, Logistic Regression, Random Forest, model evaluation metrics, cross-validation και hyperparameter tuning.
+
+
+3.1 [Ο πίνακας D01–D10].
+
+
+3.2 Τύποι ερωτημάτων που υποστηρίζει το corpus.
+Το corpus υποστηρίζει τουλάχιστον τρεις βασικούς τύπους ερωτημάτων:
+
+
+1. Conceptual questions: ερωτήσεις κατανόησης εννοιών, όπως τι είναι το feature scaling, τι σημαίνει cross-validation ή ποια είναι η διαφορά precision και recall.
+
+
+2. Procedural / how-to questions: ερωτήσεις που ζητούν πρακτικά βήματα, όπως πώς δημιουργείται ένα Pipeline με StandardScaler και LogisticRegression ή πώς χρησιμοποιείται το GridSearchCV.
+
+
+3. Decision-support questions: ερωτήσεις που βοηθούν τον χρήστη να επιλέξει κατάλληλη μέθοδο ή metric, όπως πότε είναι προτιμότερο το F1-score αντί για accuracy ή πότε μπορεί να χρησιμοποιηθεί Random Forest αντί για Logistic Regression.
+
+
+🧁 3.1 Corpus Sources
+3.1 Corpus Sources.
+
+
+ID
+	θέμα
+	σελίδα
+	URL
+	D01
+	Γενική εισαγωγή στο scikit-learn
+	Getting Started — έχει fitting/predicting, transformers, pipelines, evaluation και parameter search.
+	scikit-learn.org
+	D02
+	Preprocessing / scaling
+	Preprocessing data — εξηγεί StandardScaler και γιατί το scaling επηρεάζει αρκετούς αλγορίθμους. 
+	scikit-learn.org
+	D03
+	Pipelines
+	Pipelines and composite estimators — πολύ σημαντικό για να δείξεις data leakage avoidance και σωστό ML workflow.
+	scikit-learn.org
+	D04
+	Train/test split
+	train_test_split — για βασικό split σε train και test sets.
+	scikit-learn.org
+	D05
+	Cross-validation
+	Cross-validation — για αξιολόγηση απόδοσης μοντέλου με folds.
+	scikit-learn.org
+	D06
+	Hyperparameter tuning
+	Grid Search / parameter tuning — για GridSearchCV, RandomizedSearchCV και επιλογή παραμέτρων.
+	scikit-learn.org
+	D07
+	Metrics
+	Model evaluation / metrics and scoring — για accuracy, precision, recall, F1, scoring κ.λπ.
+	scikit-learn.org
+	D08
+	Logistic Regression
+	LogisticRegression API page — χρήσιμο για classifier, regularization, parameters.
+	scikit-learn.org
+	D09
+	Random Forests
+	Ensembles / Random Forests — εξηγεί ensemble methods και random forests. 
+	scikit-learn.org
+	D10
+	RandomForestClassifier
+	RandomForestClassifier API page — χρήσιμο για parameters όπως n_estimators, max_depth, class_weight. 
+	scikit-learn.org
+	
+
+
+
+Οι παραπάνω πηγές επιλέχθηκαν επειδή καλύπτουν ένα πλήρες supervised classification workflow στο scikit-learn: εισαγωγή στη βιβλιοθήκη, preprocessing, pipelines, train/test split, cross-validation, hyperparameter tuning, evaluation metrics και δύο βασικούς classifiers, LogisticRegression και RandomForestClassifier. Το corpus είναι αρκετά πλούσιο ώστε να υποστηρίζει conceptual, procedural και decision-support ερωτήματα, καθώς και σύνθετες ερωτήσεις που συνδυάζουν περισσότερα από ένα στάδια του machine learning pipeline.
+04 report notes
+Ημερομηνία: 19/05/2026
+
+
+Αρχική επιλογή θέματος:
+Το σύστημα θα είναι ένας Agentic RAG agent για το επίσημο documentation του scikit-learn.
+
+
+Στόχος:
+Να απαντά σε ερωτήσεις χρηστών σχετικά με supervised machine learning workflows, όπως preprocessing, pipelines, classification models, evaluation metrics, cross-validation και hyperparameter tuning.
+
+
+Corpus:
+Το corpus θα βασιστεί σε επιλεγμένες σελίδες του επίσημου scikit-learn documentation.
+
+
+Γιατί επιλέχθηκε:
+Το scikit-learn documentation είναι κατάλληλο corpus γιατί έχει αρκετό τεχνικό βάθος, σαφή δομή και υποστηρίζει διαφορετικούς τύπους ερωτήσεων: conceptual, procedural και decision-support.
+
+
+Corpus sources:
+
+
+Το corpus αποτελείται από 10 επιλεγμένες σελίδες του επίσημου scikit-learn documentation. Οι πηγές επιλέχθηκαν επειδή καλύπτουν ένα πλήρες supervised classification workflow: εισαγωγή στο scikit-learn, preprocessing, pipelines, train/test split, cross-validation, hyperparameter tuning, evaluation metrics, Logistic Regression και Random Forest.
+
+
+Οι πηγές οργανώθηκαν σε πίνακα με doc_id, title, topic, url και reason_selected, ώστε κάθε document και κάθε μελλοντικό chunk να μπορεί να συνδεθεί με την αρχική του πηγή.
+
+
+Ingestion plan:
+
+
+Για το corpus θα χρησιμοποιηθούν δύο διαφορετικές στρατηγικές ingestion.
+
+
+Η πρώτη στρατηγική, v1_fixed, θα βασίζεται σε fixed-size chunking. Σε αυτή την εκδοχή, το κείμενο κάθε σελίδας θα χωρίζεται σε chunks συγκεκριμένου μεγέθους με overlap, ώστε να δημιουργηθεί μια απλή baseline εκδοχή του RAG pipeline.
+
+
+Η δεύτερη στρατηγική, v2_structured, θα βασίζεται σε structured ή section-based chunking. Σε αυτή την εκδοχή, το κείμενο θα χωρίζεται με βάση τη λογική δομή των documentation pages, όπως headings και sections, ώστε τα chunks να διατηρούν καλύτερα το νόημά τους.
+
+
+Οι δύο στρατηγικές θα συγκριθούν αργότερα με βάση τα retrieval και evaluation αποτελέσματα.

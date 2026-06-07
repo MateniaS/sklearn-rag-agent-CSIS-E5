@@ -1,0 +1,7 @@
+{
+  "version": "v2",
+  "chunking_strategy": "structured_section_based",
+  "max_chunk_size": 1800,
+  "input_file": "data/corpus_sources.csv",
+  "output_file": "data/processed/v2_structured_chunks.jsonl"
+}

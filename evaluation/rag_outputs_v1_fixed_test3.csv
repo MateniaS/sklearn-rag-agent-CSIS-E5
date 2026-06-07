@@ -1,0 +1,53 @@
+question_id,question_type,question,expected_source,expected_source_url,expected_answer_draft,generated_answer,retrieved_chunk_ids,retrieved_doc_ids,retrieved_titles,retrieved_sections,retrieved_urls,retrieved_scores,top1_doc_id,top1_url,expected_source_found_top_k,expected_url_found_top_k,top1_expected_source,top1_expected_url
+Q01,conceptual,What is the purpose of feature scaling in scikit-learn?,D02,https://scikit-learn.org/stable/modules/preprocessing.html,"Feature scaling is used to transform raw numerical features into a representation that is more suitable for downstream estimators. In scikit-learn, many learning algorithms, especially linear models, can benefit from standardized data because features on very different scales may negatively affect the objective function and model learning.","The purpose of feature scaling in scikit-learn is to transform raw feature vectors into a representation that is more suitable for downstream estimators. Many machine learning algorithms, such as linear models, benefit from standardization or scaling of the dataset because they assume features are centered around zero and have similar variance. Without scaling, features with larger variance might dominate the objective function, making the estimator unable to learn properly from other features.
+
+Feature scaling methods like StandardScaler standardize features by removing the mean and scaling to unit variance, while MinMaxScaler and MaxAbsScaler scale features to a specific range (e.g., [0, 1] or [-1, 1]). This scaling improves robustness to very small standard deviations and preserves zero entries in sparse data. It also helps ensure consistent transformation between training and test data, which is important for model performance.
+
+In summary, feature scaling helps:
+- Make features more comparable by centering and scaling.
+- Improve the performance and convergence of many machine learning algorithms.
+- Handle features with different units or scales.
+- Maintain robustness in the presence of outliers or sparse data.
+
+Sources:
+- Preprocessing data - https://scikit-learn.org/stable/modules/preprocessing.html (Chunks D02_v1_001, D02_v1_002, D02_v1_005, D02_v1_006)",D02_v1_005 | D02_v1_001 | D02_v1_004 | D02_v1_002 | D02_v1_006,D02 | D02 | D02 | D02 | D02,Preprocessing data | Preprocessing data | Preprocessing data | Preprocessing data | Preprocessing data,None | None | None | None | None,https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html,0.6601 | 0.5745 | 0.5739 | 0.5338 | 0.5275,D02,https://scikit-learn.org/stable/modules/preprocessing.html,True,True,True,True
+Q02,conceptual,How does StandardScaler transform numerical features?,D02,https://scikit-learn.org/stable/modules/preprocessing.html,"StandardScaler standardizes each feature by removing the mean and scaling to unit variance. It learns the mean and standard deviation from the training data during fit, and then applies the same transformation during transform.","The StandardScaler in scikit-learn transforms numerical features by standardizing them. This involves two main steps:
+
+1. Centering the data by removing the mean value of each feature.
+2. Scaling the data by dividing each feature by its standard deviation.
+
+As a result, the transformed features have zero mean and unit variance. This standardization is useful because many machine learning algorithms assume that features are centered around zero and have similar variance scales. If a feature has a much larger variance than others, it might dominate the learning process, so scaling helps to balance the influence of all features.
+
+The StandardScaler computes the mean and standard deviation on the training set and applies the same transformation to the test set, ensuring consistency.
+
+Example from the context:
+
+```python
+from sklearn import preprocessing
+import numpy as np
+
+X_train = np.array([[1., -1., 2.],
+                    [2., 0., 0.],
+                    [0., 1., -1.]])
+
+scaler = preprocessing.StandardScaler().fit(X_train)
+X_scaled = scaler.transform(X_train)
+
+print(X_scaled.mean(axis=0))  # array close to [0., 0., 0.]
+print(X_scaled.std(axis=0))   # array close to [1., 1., 1.]
+```
+
+This shows that after transformation, each feature has zero mean and unit variance.
+
+It is also possible to disable centering or scaling by setting `with_mean=False` or `with_std=False` when creating the StandardScaler.
+
+Sources:
+- Preprocessing data - scikit-learn documentation: https://scikit-learn.org/stable/modules/preprocessing.html",D02_v1_005 | D02_v1_002 | D02_v1_001 | D02_v1_004 | D02_v1_003,D02 | D02 | D02 | D02 | D02,Preprocessing data | Preprocessing data | Preprocessing data | Preprocessing data | Preprocessing data,None | None | None | None | None,https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html,0.593 | 0.5606 | 0.5412 | 0.5353 | 0.5326,D02,https://scikit-learn.org/stable/modules/preprocessing.html,True,True,True,True
+Q03,conceptual,Why can feature scaling improve the performance of some machine learning algorithms?,D02,https://scikit-learn.org/stable/modules/preprocessing.html,"Feature scaling can improve performance because some estimators assume or work better when features are centered around zero and have comparable variance. If one feature has a much larger variance than the others, it can dominate the objective function and make it harder for the estimator to learn correctly from the remaining features.","Feature scaling can improve the performance of some machine learning algorithms because many learning algorithms, such as linear models, benefit from standardization of the dataset. Standardization involves centering the data by removing the mean value of each feature and scaling it by dividing by the standard deviation, so that the features more or less look like standard normally distributed data (Gaussian with zero mean and unit variance). If features are not scaled, algorithms might behave badly because they assume or perform better when features have similar scales.
+
+Additionally, scaling can provide robustness to very small standard deviations of features and preserve zero entries in sparse data. Scaling features to a specific range (e.g., between 0 and 1) or scaling by the maximum absolute value can also help in making the data more suitable for downstream estimators.
+
+In summary, feature scaling improves the numerical stability and convergence speed of many algorithms and ensures that features contribute proportionally to the result, which can lead to better model performance.
+
+Sources:
+- Preprocessing data - https://scikit-learn.org/stable/modules/preprocessing.html (Chunks D02_v1_001, D02_v1_004, D02_v1_005)",D02_v1_005 | D02_v1_001 | D09_v1_046 | D02_v1_004 | D09_v1_032,D02 | D02 | D09 | D02 | D09,Preprocessing data | Preprocessing data | Random forests | Preprocessing data | Random forests,None | None | None | None | None,https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/ensemble.html#forest | https://scikit-learn.org/stable/modules/preprocessing.html | https://scikit-learn.org/stable/modules/ensemble.html#forest,0.5797 | 0.5007 | 0.493 | 0.4784 | 0.4749,D02,https://scikit-learn.org/stable/modules/preprocessing.html,True,True,True,True

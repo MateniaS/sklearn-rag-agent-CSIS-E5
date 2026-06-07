@@ -1,0 +1,102 @@
+[
+  {
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "why_selected": "Περιέχει βασική εισαγωγή στο scikit-learn, fitting, predicting, transformers, pipelines και evaluation.",
+    "text_file": "D01.txt",
+    "num_characters": 9771,
+    "num_words": 1532
+  },
+  {
+    "doc_id": "D02",
+    "title": "Preprocessing data",
+    "topic": "preprocessing",
+    "url": "https://scikit-learn.org/stable/modules/preprocessing.html",
+    "why_selected": "Χρήσιμο για scaling, normalization και preprocessing βήματα πριν την εκπαίδευση μοντέλων.",
+    "text_file": "D02.txt",
+    "num_characters": 49969,
+    "num_words": 7954
+  },
+  {
+    "doc_id": "D03",
+    "title": "Pipeline and composite estimators",
+    "topic": "pipelines",
+    "url": "https://scikit-learn.org/stable/modules/compose.html",
+    "why_selected": "Χρήσιμο για Pipeline, αποφυγή data leakage και σωστή οργάνωση machine learning workflow.",
+    "text_file": "D03.txt",
+    "num_characters": 22201,
+    "num_words": 3466
+  },
+  {
+    "doc_id": "D04",
+    "title": "train_test_split",
+    "topic": "train_test_split",
+    "url": "https://scikit-learn.org/stable/modules/generated/sklearn.model_selection.train_test_split.html",
+    "why_selected": "Χρήσιμο για βασικό διαχωρισμό δεδομένων σε train και test sets.",
+    "text_file": "D04.txt",
+    "num_characters": 10223,
+    "num_words": 1462
+  },
+  {
+    "doc_id": "D05",
+    "title": "Cross-validation",
+    "topic": "cross_validation",
+    "url": "https://scikit-learn.org/stable/modules/cross_validation.html",
+    "why_selected": "Χρήσιμο για αξιολόγηση μοντέλων με cross-validation και folds.",
+    "text_file": "D05.txt",
+    "num_characters": 38559,
+    "num_words": 6637
+  },
+  {
+    "doc_id": "D06",
+    "title": "Grid search",
+    "topic": "hyperparameter_tuning",
+    "url": "https://scikit-learn.org/stable/modules/grid_search.html",
+    "why_selected": "Χρήσιμο για GridSearchCV, RandomizedSearchCV και hyperparameter tuning.",
+    "text_file": "D06.txt",
+    "num_characters": 31284,
+    "num_words": 4656
+  },
+  {
+    "doc_id": "D07",
+    "title": "Model evaluation",
+    "topic": "metrics",
+    "url": "https://scikit-learn.org/stable/modules/model_evaluation.html",
+    "why_selected": "Χρήσιμο για accuracy, precision, recall, F1-score και scoring metrics.",
+    "text_file": "D07.txt",
+    "num_characters": 121029,
+    "num_words": 18630
+  },
+  {
+    "doc_id": "D08",
+    "title": "LogisticRegression",
+    "topic": "logistic_regression",
+    "url": "https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LogisticRegression.html",
+    "why_selected": "Χρήσιμο για Logistic Regression, parameters, regularization και classification.",
+    "text_file": "D08.txt",
+    "num_characters": 22143,
+    "num_words": 3193
+  },
+  {
+    "doc_id": "D09",
+    "title": "Random forests",
+    "topic": "random_forest",
+    "url": "https://scikit-learn.org/stable/modules/ensemble.html#forest",
+    "why_selected": "Χρήσιμο για τη θεωρητική εξήγηση των Random Forests και ensemble methods.",
+    "text_file": "D09.txt",
+    "num_characters": 68221,
+    "num_words": 10413
+  },
+  {
+    "doc_id": "D10",
+    "title": "RandomForestClassifier",
+    "topic": "random_forest_classifier",
+    "url": "https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html",
+    "why_selected": "Χρήσιμο για parameters όπως n_estimators, max_depth και class_weight.",
+    "text_file": "D10.txt",
+    "num_characters": 22341,
+    "num_words": 3358
+  }
+]

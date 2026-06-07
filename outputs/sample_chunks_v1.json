@@ -1,0 +1,52 @@
+[
+  {
+    "chunk_id": "D01_v1_001",
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "chunking_strategy": "v1_fixed",
+    "chunk_index": 1,
+    "text": "Getting Started\n#\n\nScikit-learn\n is an open source machine learning library that supports\nsupervised and unsupervised learning. It also provides various tools for\nmodel fitting, data preprocessing, model selection, model evaluation,\nand many other utilities.\n\nThe purpose of this guide is to illustrate some of the main features of\n\nscikit-learn\n. It assumes basic working knowledge of machine learning\npractices (model fitting, predicting, cross-validation, etc.). Please refer to\nour \ninstallation instructions\n to install\n\nscikit-learn\n, or jump to the \nNext steps\n section for additional\nguidance on using \nscikit-learn\n.\n\nFitting and predicting: estimator basics\n#\n\nScikit-learn\n provides dozens of built-in machine learning algorithms and\nmodels, called \nestimators\n. Each estimator can be fitted to some data\nusing its \nfit\n method.\n\nHere is a simple example where we fit a\n\nRandomForestClassifier\n to some very basic data:\n\n>>> \nfrom\n\nsklearn.ensemble\n\nimport\n\nRandomForestClassifier\n\n>>> \nclf\n\n=\n\nRandomForestClassifier\n(\nrandom_state\n=\n0\n)\n\n>>> \nX\n\n=\n\n[[\n\n1\n,\n\n2\n,\n\n3\n],\n\n# 2 samples, 3 features\n\n... \n\n[\n11\n,\n\n12\n,\n\n13\n]]\n\n>>> \ny\n\n=\n\n[\n0\n,\n\n1\n]\n\n# classes of each sample\n\n>>> \nclf\n.\nfit\n("
+  },
+  {
+    "chunk_id": "D01_v1_002",
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "chunking_strategy": "v1_fixed",
+    "chunk_index": 2,
+    "text": "f\n\n=\n\nRandomForestClassifier\n(\nrandom_state\n=\n0\n)\n\n>>> \nX\n\n=\n\n[[\n\n1\n,\n\n2\n,\n\n3\n],\n\n# 2 samples, 3 features\n\n... \n\n[\n11\n,\n\n12\n,\n\n13\n]]\n\n>>> \ny\n\n=\n\n[\n0\n,\n\n1\n]\n\n# classes of each sample\n\n>>> \nclf\n.\nfit\n(\nX\n,\n\ny\n)\n\nRandomForestClassifier(random_state=0)\n\nThe \nfit\n method generally accepts 2 inputs:\n\nThe samples matrix (or design matrix) \nX\n. The size of \nX\n\nis typically \n(n_samples,\n\nn_features)\n, which means that samples are\nrepresented as rows and features are represented as columns.\n\nThe target values \ny\n which are real numbers for regression tasks, or\nintegers for classification (or any other discrete set of values). For\nunsupervised learning tasks, \ny\n does not need to be specified. \ny\n is\nusually a 1d array where the \ni\n th entry corresponds to the target of the\n\ni\n th sample (row) of \nX\n.\n\nBoth \nX\n and \ny\n are usually expected to be numpy arrays or equivalent\n\narray-like\n data types, though some estimators work with other\nformats such as sparse matrices.\n\nOnce the estimator is fitted, it can be used for predicting target values of\nnew data. You don’t need to re-train the estimator:\n\n>>> \nclf\n.\npredict\n(\nX\n)\n\n# predict classes of the training data\n\narray([0, 1])\n\n>>> \nclf\n.\npredic"
+  },
+  {
+    "chunk_id": "D01_v1_003",
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "chunking_strategy": "v1_fixed",
+    "chunk_index": 3,
+    "text": ", it can be used for predicting target values of\nnew data. You don’t need to re-train the estimator:\n\n>>> \nclf\n.\npredict\n(\nX\n)\n\n# predict classes of the training data\n\narray([0, 1])\n\n>>> \nclf\n.\npredict\n([[\n4\n,\n\n5\n,\n\n6\n],\n\n[\n14\n,\n\n15\n,\n\n16\n]])\n\n# predict classes of new data\n\narray([0, 1])\n\nYou can check \nChoosing the right estimator\n on how to choose the right model for your use case.\n\nTransformers and pre-processors\n#\n\nMachine learning workflows are often composed of different parts. A typical\npipeline consists of a pre-processing step that transforms or imputes the\ndata, and a final predictor that predicts target values.\n\nIn \nscikit-learn\n, pre-processors and transformers follow the same API as\nthe estimator objects (they actually all inherit from the same\n\nBaseEstimator\n class). The transformer objects don’t have a\n\npredict\n method but rather a \ntransform\n method that outputs a\nnewly transformed sample matrix \nX\n:\n\n>>> \nfrom\n\nsklearn.preprocessing\n\nimport\n\nStandardScaler\n\n>>> \nX\n\n=\n\n[[\n0\n,\n\n15\n],\n\n... \n\n[\n1\n,\n\n-\n10\n]]\n\n>>> \n# scale data according to computed scaling values\n\n>>> \nStandardScaler\n()\n.\nfit\n(\nX\n)\n.\ntransform\n(\nX\n)\n\narray([[-1., 1.],\n\n [ 1., -1.]])\n\nSometimes, you want"
+  },
+  {
+    "chunk_id": "D01_v1_004",
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "chunking_strategy": "v1_fixed",
+    "chunk_index": 4,
+    "text": "[[\n0\n,\n\n15\n],\n\n... \n\n[\n1\n,\n\n-\n10\n]]\n\n>>> \n# scale data according to computed scaling values\n\n>>> \nStandardScaler\n()\n.\nfit\n(\nX\n)\n.\ntransform\n(\nX\n)\n\narray([[-1., 1.],\n\n [ 1., -1.]])\n\nSometimes, you want to apply different transformations to different features:\nthe \nColumnTransformer\n is designed for these\nuse-cases.\n\nPipelines: chaining pre-processors and estimators\n#\n\nTransformers and estimators (predictors) can be combined together into a\nsingle unifying object: a \nPipeline\n. The pipeline\noffers the same API as a regular estimator: it can be fitted and used for\nprediction with \nfit\n and \npredict\n. As we will see later, using a\npipeline will also prevent you from data leakage, i.e. disclosing some\ntesting data in your training data.\n\nIn the following example, we \nload the Iris dataset\n, split it\ninto train and test sets, and compute the accuracy score of a pipeline on\nthe test data:\n\n>>> \nfrom\n\nsklearn.preprocessing\n\nimport\n\nStandardScaler\n\n>>> \nfrom\n\nsklearn.linear_model\n\nimport\n\nLogisticRegression\n\n>>> \nfrom\n\nsklearn.pipeline\n\nimport\n\nmake_pipeline\n\n>>> \nfrom\n\nsklearn.datasets\n\nimport\n\nload_iris\n\n>>> \nfrom\n\nsklearn.model_selection\n\nimport\n\ntrain_test_split\n\n>>> \nfrom\n\nsklearn.metr"
+  },
+  {
+    "chunk_id": "D01_v1_005",
+    "doc_id": "D01",
+    "title": "Getting Started",
+    "topic": "general_intro",
+    "url": "https://scikit-learn.org/stable/getting_started.html",
+    "chunking_strategy": "v1_fixed",
+    "chunk_index": 5,
+    "text": "ticRegression\n\n>>> \nfrom\n\nsklearn.pipeline\n\nimport\n\nmake_pipeline\n\n>>> \nfrom\n\nsklearn.datasets\n\nimport\n\nload_iris\n\n>>> \nfrom\n\nsklearn.model_selection\n\nimport\n\ntrain_test_split\n\n>>> \nfrom\n\nsklearn.metrics\n\nimport\n\naccuracy_score\n\n...\n\n>>> \n# create a pipeline object\n\n>>> \npipe\n\n=\n\nmake_pipeline\n(\n\n... \n\nStandardScaler\n(),\n\n... \n\nLogisticRegression\n()\n\n... \n)\n\n...\n\n>>> \n# load the iris dataset and split it into train and test sets\n\n>>> \nX\n,\n\ny\n\n=\n\nload_iris\n(\nreturn_X_y\n=\nTrue\n)\n\n>>> \nX_train\n,\n\nX_test\n,\n\ny_train\n,\n\ny_test\n\n=\n\ntrain_test_split\n(\nX\n,\n\ny\n,\n\nrandom_state\n=\n0\n)\n\n...\n\n>>> \n# fit the whole pipeline\n\n>>> \npipe\n.\nfit\n(\nX_train\n,\n\ny_train\n)\n\nPipeline(steps=[('standardscaler', StandardScaler()),\n\n ('logisticregression', LogisticRegression())])\n\n>>> \n# we can now use it like any other estimator\n\n>>> \naccuracy_score\n(\npipe\n.\npredict\n(\nX_test\n),\n\ny_test\n)\n\n0.97...\n\nModel evaluation\n#\n\nFitting a model to some data does not entail that it will predict well on\nunseen data. This needs to be directly evaluated. We have just seen the\n\ntrain_test_split\n helper that splits a\ndataset into train and test sets, but \nscikit-learn\n provides many other\ntools for model evaluation, in particular"
+  }
+]

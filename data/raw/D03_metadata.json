@@ -1,0 +1,10 @@
+{
+  "doc_id": "D03",
+  "title": "Pipeline and composite estimators",
+  "topic": "pipelines",
+  "url": "https://scikit-learn.org/stable/modules/compose.html",
+  "why_selected": "Χρήσιμο για Pipeline, αποφυγή data leakage και σωστή οργάνωση machine learning workflow.",
+  "text_file": "D03.txt",
+  "num_characters": 22201,
+  "num_words": 3466
+}

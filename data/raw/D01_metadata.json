@@ -1,0 +1,10 @@
+{
+  "doc_id": "D01",
+  "title": "Getting Started",
+  "topic": "general_intro",
+  "url": "https://scikit-learn.org/stable/getting_started.html",
+  "why_selected": "Περιέχει βασική εισαγωγή στο scikit-learn, fitting, predicting, transformers, pipelines και evaluation.",
+  "text_file": "D01.txt",
+  "num_characters": 9771,
+  "num_words": 1532
+}

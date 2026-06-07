@@ -1,0 +1,10 @@
+{
+  "run_name": "v2_structured_test3",
+  "collection_name": "sklearn_rag_v2_structured",
+  "total_questions": 3,
+  "mean_answer_relevancy": 5.0,
+  "mean_faithfulness": 5.0,
+  "mean_context_precision": 5.0,
+  "mean_context_recall": 5.0,
+  "mean_expected_answer_alignment": 5.0
+}
