@@ -17,20 +17,20 @@ Arguments:
 ```
 
 ## Final answer
-The RandomForestClassifier parameters that can control model complexity include:
+The parameters of RandomForestClassifier that can control model complexity include:
 
 - **max_depth**: The maximum depth of the tree. Limiting the depth controls the complexity by restricting how deep each tree can grow.
 - **min_samples_split**: The minimum number of samples required to split an internal node. Increasing this value can reduce complexity by preventing splits that create small nodes.
 - **min_samples_leaf**: The minimum number of samples required to be at a leaf node. Larger values can smooth the model and reduce complexity.
 - **max_features**: The number of features to consider when looking for the best split. Limiting features can reduce complexity.
-- **max_leaf_nodes**: Limits the number of leaf nodes in the tree, controlling complexity by pruning the tree structure.
+- **max_leaf_nodes**: Limits the number of leaf nodes in the tree, controlling complexity by pruning the tree.
 - **min_impurity_decrease**: A node will be split if this split induces a decrease of the impurity greater than or equal to this value, controlling complexity by pruning.
 - **ccp_alpha**: Complexity parameter used for Minimal Cost-Complexity Pruning. The subtree with the largest cost complexity smaller than ccp_alpha will be chosen, effectively pruning the tree to control complexity.
 
 These parameters help to control overfitting and the overall complexity of the random forest model.
 
 Sources:
-- RandomForestClassifier, https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html (Chunks D10_v2_002, D10_v2_005, D10_v2_017, D10_v2_001)
+- RandomForestClassifier - https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html
 
 ## Retrieved chunks
 
@@ -68,7 +68,7 @@ Preview:
 The features are always randomly permuted at each split. Therefore, the best found split may vary, even with the same training data, max_features=n_features and bootstrap=False , if the improvement of the criterion is identical for several splits enumerated during the search of the best split. To obtain a deterministic behaviour during fitting, random_state has to be fixed. L. Breiman, “Random Forests”, Machine Learning, 45(1), 5-32, 2001. >>> from sklearn.ensemble import RandomForestClassifier 
 
 ### Chunk 4
-- Score: 0.4596
+- Score: 0.4597
 - Doc ID: D10
 - Title: RandomForestClassifier
 - Topic: random_forest_classifier
