@@ -17,10 +17,10 @@ Professor-style HAIC evaluation based on `haic.decisions_artifact.v1`.
 |---|---:|---|
 | EL | 0.000 | Effort loss compared to baseline. |
 | Tr | 0.967 | Fraction of accepted AI responses. |
-| HCL | 0.865 | Higher means lower cognitive load. |
-| F | 46.983 | Interaction events per minute. |
+| HCL | 0.883 | Higher means lower cognitive load. |
+| F | 51.404 | Interaction events per minute. |
 | A | 0.197 | Adaptability across early vs late decisions. |
-| D | 1.277 s | Mean duration per decision event. |
+| D | 1.167 s | Mean duration per decision event. |
 | EfficiencyScore | 1.000 | Composite efficiency score. |
 | S | N/A | Excluded because no surrogate simulation was used. |
 
