@@ -8,3 +8,6 @@ qdrant_storage/
 01 assignment/
 02 corpus/
 04 report notes/
+
+.pytest_cache/
+__MACOSX/
