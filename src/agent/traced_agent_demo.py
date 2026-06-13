@@ -4,14 +4,21 @@ import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
-from langfuse import get_client
-from langfuse.openai import openai
+from openai import OpenAI
 from qdrant_client.models import Filter, FieldCondition, MatchValue
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
 sys.path.append(str(BASE_DIR / "src"))
 
+from observability.langfuse_tracing import (
+    chunk_metadata,
+    flush_langfuse,
+    get_langfuse_client,
+    observation,
+    trace_context,
+    update_observation,
+)
 from qdrant_config import create_qdrant_client
 
 EMBEDDING_MODEL = "text-embedding-3-small"
@@ -19,23 +26,18 @@ CHAT_MODEL = "gpt-4.1-mini"
 COLLECTION_NAME = "sklearn_rag_v2_structured"
 
 
-def create_embedding(question):
-    response = openai.embeddings.create(
-        name="agent-query-embedding",
+def create_embedding(openai_client, question):
+    response = openai_client.embeddings.create(
         model=EMBEDDING_MODEL,
-        input=question,
-        metadata={
-            "component": "embedding",
-            "project": "sklearn-rag-agent"
-        }
+        input=question
     )
     return response.data[0].embedding
 
 
-def retrieve_with_metadata_filter(question, topic_filter, top_k=5):
+def retrieve_with_metadata_filter(openai_client, question, topic_filter, top_k=5):
     qdrant_client = create_qdrant_client()
 
-    query_vector = create_embedding(question)
+    query_vector = create_embedding(openai_client, question)
 
     qdrant_filter = Filter(
         must=[
@@ -80,7 +82,7 @@ Text:
     return "\n".join(blocks)
 
 
-def generate_grounded_answer(question, context):
+def generate_grounded_answer(openai_client, question, context):
     system_prompt = """
 You are a grounded assistant answering questions about scikit-learn.
 
@@ -102,19 +104,13 @@ Context:
 {context}
 """
 
-    response = openai.chat.completions.create(
-        name="agent-grounded-answer",
+    response = openai_client.chat.completions.create(
         model=CHAT_MODEL,
         temperature=0,
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
-        ],
-        metadata={
-            "component": "grounded_generation",
-            "project": "sklearn-rag-agent",
-            "demo_question": "Q28"
-        }
+        ]
     )
 
     return response.choices[0].message.content
@@ -126,10 +122,8 @@ def main():
     if not os.getenv("OPENAI_API_KEY"):
         raise ValueError("OPENAI_API_KEY was not found.")
 
-    if not os.getenv("LANGFUSE_PUBLIC_KEY") or not os.getenv("LANGFUSE_SECRET_KEY"):
-        raise ValueError("Langfuse keys were not found.")
-
-    langfuse = get_client()
+    openai_client = OpenAI()
+    langfuse_client = get_langfuse_client()
 
     question = "Which RandomForestClassifier parameters can control model complexity?"
 
@@ -149,18 +143,69 @@ def main():
     print("\nAgent decision:")
     print(json.dumps(agent_decision, indent=2))
 
-    points = retrieve_with_metadata_filter(
-        question=question,
-        topic_filter="random_forest_classifier",
-        top_k=5
-    )
+    with trace_context(
+        langfuse_client,
+        name="traced-agent-demo",
+        input_data={"question": question},
+        metadata={
+            "component": "agent",
+            "collection_name": COLLECTION_NAME,
+            "demo_question": "Q28",
+        },
+        tags=["agent", "rag"],
+    ):
+        with observation(
+            langfuse_client,
+            name="demo-tool-selection",
+            input_data={"question": question},
+            metadata={"component": "tool_selection"},
+            as_type="agent",
+        ) as tool_span:
+            update_observation(
+                tool_span,
+                output={
+                    "tool": agent_decision["tool"],
+                    "arguments": agent_decision["arguments"],
+                },
+            )
 
-    context = build_context(points)
+        with observation(
+            langfuse_client,
+            name="demo-metadata-filtered-retrieval",
+            input_data=agent_decision["arguments"],
+            metadata={"component": "retrieval"},
+            as_type="retriever",
+        ) as retrieval_span:
+            points = retrieve_with_metadata_filter(
+                openai_client=openai_client,
+                question=question,
+                topic_filter="random_forest_classifier",
+                top_k=5
+            )
+            update_observation(
+                retrieval_span,
+                output=chunk_metadata(points),
+                metadata={"retrieved_chunk_count": len(points)},
+            )
 
-    answer = generate_grounded_answer(
-        question=question,
-        context=context
-    )
+        context = build_context(points)
+
+        with observation(
+            langfuse_client,
+            name="demo-grounded-generation",
+            input_data={
+                "question": question,
+                "retrieved_chunk_count": len(points),
+            },
+            metadata={"component": "grounded_generation"},
+            as_type="generation",
+        ) as generation_span:
+            answer = generate_grounded_answer(
+                openai_client=openai_client,
+                question=question,
+                context=context
+            )
+            update_observation(generation_span, output=answer)
 
     print("\nFinal answer:")
     print(answer)
@@ -214,10 +259,11 @@ def main():
 
     output_path.write_text("\n".join(lines), encoding="utf-8")
 
-    langfuse.flush()
+    flush_langfuse(langfuse_client)
 
     print(f"\nSaved traced demo output to: {output_path}")
-    print("Flushed Langfuse events. Check Langfuse → Tracing.")
+    if langfuse_client is not None:
+        print("Flushed Langfuse events. Check Langfuse Tracing.")
 
 
 if __name__ == "__main__":

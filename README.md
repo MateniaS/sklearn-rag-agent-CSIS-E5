@@ -36,7 +36,7 @@ Embeddings (text-embedding-3-small) + Qdrant vector store
         ▼
 Evaluation (golden test set, LLM-as-judge, tool call accuracy, HAIC)
         │
-        └──► Observability (Langfuse demo)
+        └──► Observability (Langfuse RAG/agent traces)
 ```
 
 **Βασικά components:**
@@ -69,6 +69,7 @@ sklearn-rag-agent/
 │   ├── demo/                   # Docker demo runner
 │   ├── evaluation/             # HAIC benchmarking scripts
 │   ├── ingestion/              # download_corpus, chunk_fixed, chunk_structured
+│   ├── observability/          # Optional Langfuse tracing helper
 │   ├── rag/                    # RAG pipeline and evaluation scripts
 │   └── vectorstore/            # Qdrant indexing
 ├── .dockerignore
@@ -83,7 +84,7 @@ sklearn-rag-agent/
 - **Python 3.9+** (δοκιμασμένο με Python 3.9.6)
 - **Docker** και **Docker Compose** (για αναπαραγώγιμη εκτέλεση Qdrant + app demo)
 - **OpenAI API key** (υποχρεωτικό για embeddings, generation, evaluation)
-- **Langfuse keys** (προαιρετικά — μόνο για το Langfuse demo script)
+- **Langfuse keys** (προαιρετικά για local runs, χρήσιμα/απαιτούμενα ως presentation evidence)
 
 ## 7. Docker / Reproducible execution
 
@@ -138,12 +139,12 @@ cp .env.example .env
 OPENAI_API_KEY=your_openai_api_key_here
 LANGFUSE_PUBLIC_KEY=your_langfuse_public_key_here
 LANGFUSE_SECRET_KEY=your_langfuse_secret_key_here
-LANGFUSE_BASE_URL=https://cloud.langfuse.com
+LANGFUSE_HOST=https://cloud.langfuse.com
 QDRANT_HOST=localhost
 QDRANT_PORT=6333
 ```
 
-Το `OPENAI_API_KEY` απαιτείται για όλα τα βασικά scripts. Τα Langfuse keys απαιτούνται μόνο για `src/agent/traced_agent_demo.py`.
+Το `OPENAI_API_KEY` απαιτείται για όλα τα βασικά scripts. Τα Langfuse keys είναι προαιρετικά για τοπική εκτέλεση: αν λείπουν, τα traced scripts συνεχίζουν χωρίς traces και εμφανίζουν ενημερωτικό μήνυμα.
 
 ## 9. Qdrant configuration
 
@@ -444,17 +445,44 @@ python src/evaluation/haic_professor_benchmark.py
 - `evaluation/haic_metrics_v2_structured.json`
 - `evaluation/haic_metrics_v2_structured.md`
 
-## 17. Run Langfuse demo
+## 17. Langfuse tracing
 
-Απαιτούνται Langfuse credentials στο `.env`.
+Το project περιλαμβάνει lightweight Langfuse tracing για representative RAG και agent runs.
+
+Τα traced scripts είναι:
+
+- `src/rag/rag_answer.py` — trace για user question, retrieval metadata και grounded answer generation.
+- `src/agent/langgraph_agent.py` — trace για agent question, tool selection, tool arguments, retrieved chunk metadata και final answer.
+- `src/agent/traced_agent_demo.py` — μικρό presentation demo για Q28 με agent/RAG trace.
+
+Για να ενεργοποιηθούν traces, συμπληρώστε στο `.env`:
+
+```text
+LANGFUSE_PUBLIC_KEY=your_langfuse_public_key_here
+LANGFUSE_SECRET_KEY=your_langfuse_secret_key_here
+LANGFUSE_HOST=https://cloud.langfuse.com
+```
+
+Αν αυτά τα variables λείπουν, τα scripts τρέχουν κανονικά χωρίς Langfuse και εμφανίζουν ενημερωτικό μήνυμα. Αυτό κρατά το local και Docker demo path ανεξάρτητο από Langfuse credentials.
+
+Απλό traced demo command για την παρουσίαση:
 
 ```bash
 python src/agent/traced_agent_demo.py
 ```
 
-Το script εκτελεί demo ερώτηση Q28 (RandomForestClassifier parameters), καταγράφει traces στο Langfuse dashboard και αποθηκεύει:
+Εναλλακτικά, ο πραγματικός LangGraph agent παράγει trace όταν τα Langfuse variables είναι διαθέσιμα:
+
+```bash
+python src/agent/langgraph_agent.py \
+  --question "Which RandomForestClassifier parameters can control model complexity?"
+```
+
+Το traced demo εκτελεί την ερώτηση Q28 (RandomForestClassifier parameters), καταγράφει trace στο Langfuse dashboard και αποθηκεύει:
 
 `outputs/traced_agent_demo_q28.md`
+
+Τα traces είναι προαιρετικά για καθημερινή local εκτέλεση, αλλά πρέπει να είναι διαθέσιμα στο Langfuse dashboard ως evidence κατά την παρουσίαση/demo.
 
 ## 18. Known limitations
 
@@ -472,7 +500,7 @@ python src/agent/traced_agent_demo.py
 
 7. **Retrieval ambiguity:** Ερωτήσεις που συνδυάζουν γενικές και API-specific πηγές (π.χ. Q28) μπορεί να αποτυγχάνουν χωρίς metadata filtering.
 
-8. **Langfuse integration scope:** Το Langfuse tracing υλοποιείται στο demo script, όχι στον κύριο agent flow.
+8. **Langfuse integration scope:** Το Langfuse tracing καλύπτει representative RAG και agent runs. Δεν γίνεται trace κάθε expensive evaluation script από προεπιλογή.
 
 ## Quick start (minimal path)
 

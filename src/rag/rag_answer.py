@@ -11,6 +11,14 @@ BASE_DIR = Path(__file__).resolve().parents[2]
 sys.path.append(str(BASE_DIR / "src"))
 
 from qdrant_config import create_qdrant_client
+from observability.langfuse_tracing import (
+    chunk_metadata,
+    flush_langfuse,
+    get_langfuse_client,
+    observation,
+    trace_context,
+    update_observation,
+)
 
 EMBEDDING_MODEL = "text-embedding-3-small"
 CHAT_MODEL = "gpt-4.1-mini"
@@ -141,23 +149,64 @@ def main():
 
     openai_client = OpenAI()
     qdrant_client = create_qdrant_client()
+    langfuse_client = get_langfuse_client()
 
-    query_vector = create_query_embedding(openai_client, args.question)
+    with trace_context(
+        langfuse_client,
+        name="rag-answer",
+        input_data={"question": args.question},
+        metadata={
+            "collection_name": args.collection_name,
+            "top_k": args.top_k,
+            "component": "rag",
+        },
+        tags=["rag"],
+    ):
+        query_vector = create_query_embedding(openai_client, args.question)
 
-    points = retrieve_chunks(
-        qdrant_client=qdrant_client,
-        collection_name=args.collection_name,
-        query_vector=query_vector,
-        top_k=args.top_k
-    )
+        with observation(
+            langfuse_client,
+            name="rag-retrieval",
+            input_data={
+                "question": args.question,
+                "collection_name": args.collection_name,
+                "top_k": args.top_k,
+            },
+            metadata={"component": "retrieval"},
+            as_type="retriever",
+        ) as retrieval_span:
+            points = retrieve_chunks(
+                qdrant_client=qdrant_client,
+                collection_name=args.collection_name,
+                query_vector=query_vector,
+                top_k=args.top_k
+            )
+            update_observation(
+                retrieval_span,
+                output=chunk_metadata(points),
+                metadata={"retrieved_chunk_count": len(points)},
+            )
 
-    context = build_context(points)
+        context = build_context(points)
 
-    answer = generate_answer(
-        openai_client=openai_client,
-        question=args.question,
-        context=context
-    )
+        with observation(
+            langfuse_client,
+            name="rag-grounded-generation",
+            input_data={
+                "question": args.question,
+                "retrieved_chunk_count": len(points),
+            },
+            metadata={"component": "grounded_generation"},
+            as_type="generation",
+        ) as generation_span:
+            answer = generate_answer(
+                openai_client=openai_client,
+                question=args.question,
+                context=context
+            )
+            update_observation(generation_span, output=answer)
+
+    flush_langfuse(langfuse_client)
 
     print("\nQuestion:")
     print(args.question)

@@ -14,6 +14,14 @@ from openai import OpenAI
 BASE_DIR = Path(__file__).resolve().parents[2]
 sys.path.append(str(BASE_DIR / "src"))
 
+from observability.langfuse_tracing import (
+    chunk_metadata,
+    flush_langfuse,
+    get_langfuse_client,
+    observation,
+    trace_context,
+    update_observation,
+)
 from qdrant_config import create_qdrant_client
 from react_agent import CHAT_MODEL, build_context, choose_tool, generate_answer, retrieve_chunks
 from tool_definitions import (
@@ -281,23 +289,80 @@ def main():
 
     openai_client = OpenAI()
     qdrant_client = create_qdrant_client()
+    langfuse_client = get_langfuse_client()
 
     print("\nQuestion:")
     print(args.question)
     print(f"\nRouter mode: {args.router}")
 
-    if args.router == "hybrid":
-        decision, points, answer = run_hybrid(
-            args.question,
-            qdrant_client,
-            openai_client,
-        )
-    else:
-        decision, points, answer = run_langgraph(
-            args.question,
-            qdrant_client,
-            openai_client,
-        )
+    with trace_context(
+        langfuse_client,
+        name="agent-run",
+        input_data={"question": args.question},
+        metadata={
+            "router": args.router,
+            "component": "agent",
+            "collection_name": "sklearn_rag_v2_structured",
+        },
+        tags=["agent", "langgraph"],
+    ):
+        if args.router == "hybrid":
+            decision, points, answer = run_hybrid(
+                args.question,
+                qdrant_client,
+                openai_client,
+            )
+        else:
+            decision, points, answer = run_langgraph(
+                args.question,
+                qdrant_client,
+                openai_client,
+            )
+
+        with observation(
+            langfuse_client,
+            name="agent-tool-selection",
+            input_data={"question": args.question, "router": args.router},
+            metadata={"component": "tool_selection"},
+            as_type="agent",
+        ) as tool_span:
+            update_observation(
+                tool_span,
+                output={
+                    "tool": decision.get("tool"),
+                    "arguments": decision.get("arguments", {}),
+                    "router": decision.get("router"),
+                    "tool_calls": decision.get("tool_calls", []),
+                    "fallback_reason": decision.get("fallback_reason"),
+                },
+            )
+
+        with observation(
+            langfuse_client,
+            name="agent-retrieved-chunks",
+            input_data={
+                "tool": decision.get("tool"),
+                "arguments": decision.get("arguments", {}),
+            },
+            metadata={"component": "retrieval"},
+            as_type="retriever",
+        ) as retrieval_span:
+            update_observation(
+                retrieval_span,
+                output=chunk_metadata(points),
+                metadata={"retrieved_chunk_count": len(points)},
+            )
+
+        with observation(
+            langfuse_client,
+            name="agent-final-answer",
+            input_data={"question": args.question},
+            metadata={"component": "final_answer"},
+            as_type="generation",
+        ) as answer_span:
+            update_observation(answer_span, output=answer)
+
+    flush_langfuse(langfuse_client)
 
     print("\nAgent thought:")
     print(decision.get("thought", ""))

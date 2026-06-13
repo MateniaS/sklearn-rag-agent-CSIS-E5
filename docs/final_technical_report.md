@@ -138,7 +138,7 @@ Evaluation, HAIC benchmarking, Langfuse tracing
 * **RAG pipeline:** ανάκτηση σχετικών chunks, δημιουργία context και παραγωγή απάντησης με grounding.
 * **Agent layer:** επιλογή εργαλείου ανάκτησης είτε με rule-based routing είτε με LangGraph ReAct agent.
 * **Evaluation:** αξιολόγηση retrieval, generation, tool selection και HAIC metrics.
-* **Observability:** καταγραφή demo trace μέσω Langfuse.
+* **Observability:** καταγραφή representative RAG και agent traces μέσω Langfuse.
 
 Η υλοποίηση οργανώθηκε σε διακριτούς φακέλους: `src/ingestion/`, `src/vectorstore/`, `src/rag/`, `src/agent/`, `src/evaluation/`, ενώ τα δεδομένα και τα αποτελέσματα αποθηκεύτηκαν στους φακέλους `data/`, `evaluation/` και `outputs/`.
 
@@ -627,21 +627,39 @@ HCL × F: Smooth collaboration
 
 ## 12. Παρατηρησιμότητα με Langfuse
 
-Για την παρατηρησιμότητα του συστήματος χρησιμοποιήθηκε Langfuse demo script. Η υλοποίηση βρίσκεται στο αρχείο:
+Για την παρατηρησιμότητα του συστήματος χρησιμοποιήθηκε Langfuse tracing σε representative RAG και agent runs. Η υλοποίηση βασίζεται σε reusable helper:
+
+```text
+src/observability/langfuse_tracing.py
+```
+
+Το helper ενεργοποιεί Langfuse μόνο όταν υπάρχουν τα απαραίτητα environment variables (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`). Αν λείπουν, τα scripts συνεχίζουν κανονικά χωρίς tracing και εμφανίζουν ενημερωτικό μήνυμα.
+
+Τα βασικά traced entry points είναι:
+
+```text
+src/rag/rag_answer.py
+src/agent/langgraph_agent.py
+src/agent/traced_agent_demo.py
+```
+
+Το RAG trace καταγράφει την ερώτηση χρήστη, το retrieval call, metadata των retrieved chunks (`doc_id`, `title`, `topic`, `section`, `url`, `score`) και το grounded answer generation. Το agent trace καταγράφει την ερώτηση, την επιλογή εργαλείου (`rag_retriever` ή `metadata_filtered_retriever`), τα tool arguments, τα retrieved chunk metadata και την τελική απάντηση.
+
+Το demo script βρίσκεται στο αρχείο:
 
 ```text
 src/agent/traced_agent_demo.py
 ```
 
-Το script εκτελεί demo ερώτηση σχετική με το `RandomForestClassifier` και καταγράφει βήματα του agent/RAG flow, όπως embedding, retrieval και generation. Το αποτέλεσμα του demo αποθηκεύτηκε στο:
+Το script εκτελεί demo ερώτηση σχετική με το `RandomForestClassifier` και αποθηκεύει το αποτέλεσμα στο:
 
 ```text
 outputs/traced_agent_demo_q28.md
 ```
 
-Η χρήση του Langfuse βοηθά στην κατανόηση της εσωτερικής ροής του συστήματος, καθώς επιτρέπει την παρακολούθηση επιμέρους βημάτων, χρόνων εκτέλεσης και LLM interactions. Στην παρούσα εργασία το Langfuse χρησιμοποιήθηκε σε demo επίπεδο και όχι ως πλήρως ενσωματωμένο tracing layer σε κάθε script του project.
+Η χρήση του Langfuse βοηθά στην κατανόηση της εσωτερικής ροής του συστήματος, καθώς επιτρέπει την παρακολούθηση επιμέρους βημάτων, retrieval metadata, tool calls και LLM interactions. Στην παρούσα εργασία το tracing καλύπτει representative RAG και agent runs που είναι κατάλληλα για παρουσίαση/demo.
 
-Αυτό αποτελεί χρήσιμο σημείο για μελλοντική βελτίωση, καθώς η πλήρης ενσωμάτωση observability στο βασικό agent flow θα επέτρεπε πιο συστηματική ανάλυση κόστους, latency, tool calls και failure cases.
+Ως μελλοντική βελτίωση παραμένει η πλήρης παραγωγική ενσωμάτωση observability σε όλα τα evaluation scripts και σε κάθε batch run, ώστε να γίνεται πιο συστηματική ανάλυση κόστους, latency και failure cases.
 
 ---
 
@@ -711,8 +729,8 @@ sklearn_rag_v2_structured
 4. **Offline HAIC evaluation**
    Το HAIC benchmarking βασίζεται σε offline proxy accept/reject και όχι σε πραγματικό user study. Επομένως, οι μετρικές HAIC πρέπει να ερμηνεύονται ως προσεγγιστική αξιολόγηση και όχι ως πραγματική ανθρώπινη αξιολόγηση.
 
-5. **Demo-level Langfuse integration**
-   Το Langfuse tracing υλοποιήθηκε σε ξεχωριστό demo script και όχι πλήρως στον κύριο agent flow.
+5. **Representative Langfuse tracing**
+   Το Langfuse tracing καλύπτει representative RAG και agent runs, αλλά όχι κάθε expensive evaluation script από προεπιλογή.
 
 6. **Demo-oriented Dockerization**
    Το Docker Compose εκκινεί Qdrant και Python demo service, αλλά δεν παρέχει πλήρες interactive UI. Η αναπαραγωγή των evaluation scripts παραμένει διαθέσιμη μέσω των documented local commands.
@@ -725,7 +743,7 @@ sklearn_rag_v2_structured
 Μελλοντικές βελτιώσεις θα μπορούσαν να περιλαμβάνουν:
 
 * επέκταση του corpus σε περισσότερες ενότητες του scikit-learn documentation,
-* πλήρη ενσωμάτωση Langfuse tracing στον κύριο agent flow,
+* επέκταση Langfuse tracing σε όλα τα evaluation και batch scripts,
 * επέκταση του Docker setup με interactive UI ή API service,
 * ξεχωριστή αξιολόγηση του LangGraph routing σε μεγαλύτερο test set,
 * προσθήκη hybrid search ή reranking,
@@ -749,8 +767,8 @@ sklearn_rag_v2_structured
 * retrieval και LLM-as-judge evaluation,
 * Tool Call Accuracy,
 * HAIC benchmarking,
-* Langfuse demo,
-* Docker Compose setup για Qdrant,
+* Langfuse tracing για representative RAG/agent runs,
+* Docker Compose setup για Qdrant και Python demo service,
 * πλήρες README και τεχνική αναφορά.
 
 Συνολικά, το project υλοποιεί ένα λειτουργικό Agentic RAG σύστημα για το scikit-learn documentation, με έμφαση στην τεκμηριωμένη παραγωγή απαντήσεων, την αξιολόγηση και την αναπαραγωγιμότητα.
