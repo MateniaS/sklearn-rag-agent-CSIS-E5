@@ -2,6 +2,7 @@ import argparse
 import hashlib
 import json
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
@@ -9,8 +10,11 @@ from langchain_core.messages import AIMessage, HumanMessage
 from langchain_openai import ChatOpenAI
 from langgraph.prebuilt import create_react_agent
 from openai import OpenAI
-from qdrant_client import QdrantClient
 
+BASE_DIR = Path(__file__).resolve().parents[2]
+sys.path.append(str(BASE_DIR / "src"))
+
+from qdrant_config import create_qdrant_client
 from react_agent import CHAT_MODEL, build_context, choose_tool, generate_answer, retrieve_chunks
 from tool_definitions import (
     VALID_TOPIC_FILTERS,
@@ -19,8 +23,6 @@ from tool_definitions import (
     reset_last_retrieval,
 )
 
-
-BASE_DIR = Path(__file__).resolve().parents[2]
 
 AGENT_SYSTEM_PROMPT = """You are a scikit-learn documentation assistant agent.
 
@@ -278,7 +280,7 @@ def main():
         raise ValueError("OPENAI_API_KEY was not found. Check your .env file.")
 
     openai_client = OpenAI()
-    qdrant_client = QdrantClient(host="localhost", port=6333)
+    qdrant_client = create_qdrant_client()
 
     print("\nQuestion:")
     print(args.question)

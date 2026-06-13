@@ -1,0 +1,10 @@
+.env
+.venv/
+qdrant_storage/
+.git/
+.DS_Store
+__pycache__/
+*.pyc
+.pytest_cache/
+outputs/
+__MACOSX/

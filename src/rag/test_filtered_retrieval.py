@@ -1,14 +1,18 @@
 import argparse
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
 from openai import OpenAI
-from qdrant_client import QdrantClient
 from qdrant_client.models import Filter, FieldCondition, MatchValue
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
+sys.path.append(str(BASE_DIR / "src"))
+
+from qdrant_config import create_qdrant_client
+
 EMBEDDING_MODEL = "text-embedding-3-small"
 
 
@@ -61,7 +65,7 @@ def main():
         raise ValueError("OPENAI_API_KEY was not found.")
 
     openai_client = OpenAI()
-    qdrant_client = QdrantClient(host="localhost", port=6333)
+    qdrant_client = create_qdrant_client()
 
     query_vector = create_query_embedding(openai_client, args.question)
 

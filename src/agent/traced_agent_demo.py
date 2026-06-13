@@ -1,15 +1,18 @@
 import json
 import os
+import sys
 from pathlib import Path
 
 from dotenv import load_dotenv
 from langfuse import get_client
 from langfuse.openai import openai
-from qdrant_client import QdrantClient
 from qdrant_client.models import Filter, FieldCondition, MatchValue
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
+sys.path.append(str(BASE_DIR / "src"))
+
+from qdrant_config import create_qdrant_client
 
 EMBEDDING_MODEL = "text-embedding-3-small"
 CHAT_MODEL = "gpt-4.1-mini"
@@ -30,7 +33,7 @@ def create_embedding(question):
 
 
 def retrieve_with_metadata_filter(question, topic_filter, top_k=5):
-    qdrant_client = QdrantClient(host="localhost", port=6333)
+    qdrant_client = create_qdrant_client()
 
     query_vector = create_embedding(question)
 

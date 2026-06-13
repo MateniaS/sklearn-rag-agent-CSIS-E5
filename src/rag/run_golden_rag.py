@@ -1,15 +1,18 @@
 import argparse
 import json
 import os
+import sys
 from pathlib import Path
 
 import pandas as pd
 from dotenv import load_dotenv
 from openai import OpenAI
-from qdrant_client import QdrantClient
 
 
 BASE_DIR = Path(__file__).resolve().parents[2]
+sys.path.append(str(BASE_DIR / "src"))
+
+from qdrant_config import create_qdrant_client
 
 EMBEDDING_MODEL = "text-embedding-3-small"
 CHAT_MODEL = "gpt-4.1-mini"
@@ -150,7 +153,7 @@ def main():
         df = df.head(args.max_questions)
 
     openai_client = OpenAI()
-    qdrant_client = QdrantClient(host="localhost", port=6333)
+    qdrant_client = create_qdrant_client()
 
     rows = []
     jsonl_records = []

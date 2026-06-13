@@ -687,9 +687,9 @@ sklearn_rag_v2_structured
 
 Αυτό επιβεβαιώνει ότι το vector store λειτουργεί και ότι οι δύο εκδοχές του corpus έχουν indexed embeddings διαθέσιμα για retrieval.
 
-Στην παρούσα υλοποίηση το Docker setup καλύπτει κυρίως το Qdrant service. Η Python εφαρμογή εκτελείται τοπικά μέσω virtual environment και `requirements.txt`. Αυτό σημαίνει ότι το σύστημα είναι αναπαραγώγιμο σε local development περιβάλλον, αλλά δεν έχει γίνει πλήρης containerization όλης της Python εφαρμογής με ξεχωριστό Dockerfile.
+Στην τελική υλοποίηση, το Docker setup περιλαμβάνει τόσο το Qdrant service όσο και Python app/demo service. Το `docker-compose.yml` εκκινεί το Qdrant και το app service με `docker compose up --build`. Το app service χρησιμοποιεί το `.env` μέσω `env_file`, συνδέεται στο Qdrant με `QDRANT_HOST=qdrant`, ελέγχει αν υπάρχει το collection `sklearn_rag_v2_structured` και, αν λείπει ή είναι άδειο, το δημιουργεί ξανά από το `data/processed/v2_structured_chunks.jsonl`.
 
-Η επιλογή αυτή είναι αποδεκτή ως πρακτικό local setup, αλλά αποτελεί περιορισμό ως προς το πλήρες production packaging. Μελλοντικά, θα μπορούσε να προστεθεί Dockerfile για την Python εφαρμογή, ώστε ολόκληρο το σύστημα να εκτελείται με ενιαίο `docker compose up`.
+Το Docker demo εκτελεί τρεις representative ερωτήσεις και αποθηκεύει το αποτέλεσμα στο `outputs/docker_demo_run.md`. Η local virtual environment εκτέλεση παραμένει διαθέσιμη για development και για αναπαραγωγή των evaluation scripts.
 
 ---
 
@@ -714,8 +714,8 @@ sklearn_rag_v2_structured
 5. **Demo-level Langfuse integration**
    Το Langfuse tracing υλοποιήθηκε σε ξεχωριστό demo script και όχι πλήρως στον κύριο agent flow.
 
-6. **Partial Dockerization**
-   Το Docker Compose εκκινεί το Qdrant vector store, αλλά η Python εφαρμογή τρέχει τοπικά μέσω virtual environment. Δεν υπάρχει ακόμα πλήρες Dockerfile για όλη την εφαρμογή.
+6. **Demo-oriented Dockerization**
+   Το Docker Compose εκκινεί Qdrant και Python demo service, αλλά δεν παρέχει πλήρες interactive UI. Η αναπαραγωγή των evaluation scripts παραμένει διαθέσιμη μέσω των documented local commands.
 
 7. **Network dependencies**
    Ορισμένα ingestion βήματα, όπως το structured chunking, μπορούν να εξαρτώνται από πρόσβαση στο scikit-learn.org.
@@ -726,7 +726,7 @@ sklearn_rag_v2_structured
 
 * επέκταση του corpus σε περισσότερες ενότητες του scikit-learn documentation,
 * πλήρη ενσωμάτωση Langfuse tracing στον κύριο agent flow,
-* Dockerfile για πλήρη containerization της Python εφαρμογής,
+* επέκταση του Docker setup με interactive UI ή API service,
 * ξεχωριστή αξιολόγηση του LangGraph routing σε μεγαλύτερο test set,
 * προσθήκη hybrid search ή reranking,
 * πραγματικό user study για πιο αξιόπιστη HAIC αξιολόγηση,

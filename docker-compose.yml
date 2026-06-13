@@ -7,3 +7,17 @@ services:
       - "6334:6334"
     volumes:
       - ./qdrant_storage:/qdrant/storage
+
+  app:
+    build: .
+    container_name: sklearn_rag_app
+    depends_on:
+      - qdrant
+    env_file:
+      - .env
+    environment:
+      QDRANT_HOST: qdrant
+      QDRANT_PORT: "6333"
+    volumes:
+      - ./outputs:/app/outputs
+    command: ["python", "src/demo/run_docker_demo.py"]

@@ -56,7 +56,8 @@ sklearn-rag-agent/
 │   ├── corpus_sources.csv      # Corpus catalog (D01–D10)
 │   ├── raw/                    # Downloaded documentation text + metadata
 │   └── processed/              # Chunk files (JSONL)
-├── docker-compose.yml          # Qdrant service
+├── Dockerfile                  # Python app/demo image
+├── docker-compose.yml          # Qdrant + Python demo service
 ├── docs/                       # Technical report and project notes
 ├── evaluation/                 # Golden test set, metrics, HAIC artifacts
 ├── outputs/                    # Demo runs, retrieval tests, chunk stats
@@ -65,10 +66,12 @@ sklearn-rag-agent/
 ├── requirements.txt
 ├── src/
 │   ├── agent/                  # react_agent, langgraph_agent, tool_definitions
+│   ├── demo/                   # Docker demo runner
 │   ├── evaluation/             # HAIC benchmarking scripts
 │   ├── ingestion/              # download_corpus, chunk_fixed, chunk_structured
 │   ├── rag/                    # RAG pipeline and evaluation scripts
 │   └── vectorstore/            # Qdrant indexing
+├── .dockerignore
 ├── .env.example
 └── README.md
 ```
@@ -78,11 +81,42 @@ sklearn-rag-agent/
 ## 6. Prerequisites
 
 - **Python 3.9+** (δοκιμασμένο με Python 3.9.6)
-- **Docker** και **Docker Compose** (για Qdrant)
+- **Docker** και **Docker Compose** (για αναπαραγώγιμη εκτέλεση Qdrant + app demo)
 - **OpenAI API key** (υποχρεωτικό για embeddings, generation, evaluation)
 - **Langfuse keys** (προαιρετικά — μόνο για το Langfuse demo script)
 
-## 7. Environment setup
+## 7. Docker / Reproducible execution
+
+Το προτεινόμενο reproducible path είναι το Docker Compose setup. Εκκινεί:
+
+- `qdrant` — vector store service
+- `app` — Python demo service που περιμένει το Qdrant, ελέγχει/δημιουργεί το `sklearn_rag_v2_structured` collection και τρέχει 3 representative demo questions
+
+Από τη ρίζα του project:
+
+```bash
+cp .env.example .env
+```
+
+Συμπληρώστε τουλάχιστον:
+
+```text
+OPENAI_API_KEY=your_openai_api_key_here
+```
+
+Έπειτα:
+
+```bash
+docker compose up --build
+```
+
+Στο πρώτο run, αν το collection `sklearn_rag_v2_structured` λείπει ή είναι άδειο, το app service κάνει indexing του `data/processed/v2_structured_chunks.jsonl` στο Qdrant. Το demo αποθηκεύει:
+
+`outputs/docker_demo_run.md`
+
+Το `.env` χρησιμοποιείται μέσω `env_file` στο `docker-compose.yml`, παραμένει gitignored και δεν αντιγράφεται στο Docker image.
+
+## 8. Local environment setup
 
 Από τη ρίζα του project:
 
@@ -105,14 +139,25 @@ OPENAI_API_KEY=your_openai_api_key_here
 LANGFUSE_PUBLIC_KEY=your_langfuse_public_key_here
 LANGFUSE_SECRET_KEY=your_langfuse_secret_key_here
 LANGFUSE_BASE_URL=https://cloud.langfuse.com
+QDRANT_HOST=localhost
+QDRANT_PORT=6333
 ```
 
 Το `OPENAI_API_KEY` απαιτείται για όλα τα βασικά scripts. Τα Langfuse keys απαιτούνται μόνο για `src/agent/traced_agent_demo.py`.
 
-## 8. Start Qdrant with Docker Compose
+## 9. Qdrant configuration
+
+Όλα τα scripts που συνδέονται στο Qdrant διαβάζουν:
+
+- `QDRANT_HOST` με default `localhost`
+- `QDRANT_PORT` με default `6333`
+
+Στο Docker Compose, το app service χρησιμοποιεί `QDRANT_HOST=qdrant` και `QDRANT_PORT=6333`, ώστε να συνδέεται στο Qdrant container μέσω του compose network.
+
+Για local-only εκτέλεση του Qdrant:
 
 ```bash
-docker compose up -d
+docker compose up -d qdrant
 ```
 
 Έλεγχος ότι το Qdrant τρέχει:
@@ -222,6 +267,71 @@ python src/rag/test_filtered_retrieval.py \
 - `rag_retriever`
 - `metadata_filtered_retriever`
 
+### Agent tool schemas
+
+`rag_retriever`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "question": {
+      "type": "string",
+      "description": "User question to search against the full scikit-learn documentation corpus."
+    },
+    "top_k": {
+      "type": "integer",
+      "default": 5,
+      "description": "Number of chunks to retrieve."
+    }
+  },
+  "required": ["question"]
+}
+```
+
+`metadata_filtered_retriever`
+
+```json
+{
+  "type": "object",
+  "properties": {
+    "question": {
+      "type": "string",
+      "description": "User question to search against the scikit-learn documentation corpus."
+    },
+    "topic_filter": {
+      "type": "string",
+      "description": "Metadata topic to filter on before retrieval.",
+      "enum": [
+        "general_intro",
+        "preprocessing",
+        "pipelines",
+        "train_test_split",
+        "cross_validation",
+        "hyperparameter_tuning",
+        "metrics",
+        "logistic_regression",
+        "random_forest",
+        "random_forest_classifier"
+      ]
+    },
+    "top_k": {
+      "type": "integer",
+      "default": 5,
+      "description": "Number of chunks to retrieve."
+    }
+  },
+  "required": ["question", "topic_filter"]
+}
+```
+
+Το `src/agent/tool_definitions.py` εκθέτει τα ίδια εργαλεία στον LangGraph ReAct agent με `@tool`, ώστε οι περιγραφές και τα type hints να μετατρέπονται σε structured tool schemas.
+
+### Loop protection
+
+- `src/agent/react_agent.py` ορίζει `MAX_ITERATIONS = 2`.
+- `src/agent/langgraph_agent.py` καλεί τον LangGraph agent με `recursion_limit = 8`.
+
 ```bash
 python src/agent/react_agent.py \
   --question "Which RandomForestClassifier parameters can control model complexity?"
@@ -316,8 +426,8 @@ python src/evaluation/haic_benchmark.py \
 
 **Output:**
 
-- `evaluation/haic_results_v2_structured_full.csv`
-- `evaluation/haic_summary_v2_structured_full.md`
+- `evaluation/haic_results_v2_structured_test3.csv`
+- `evaluation/haic_summary_v2_structured_test3.md`
 
 ### Professor-style HAIC artifact (`haic.decisions_artifact.v1`)
 
@@ -354,7 +464,7 @@ python src/agent/traced_agent_demo.py
 
 3. **HAIC accept/reject proxy:** Στο `haic_professor_benchmark.py`, το human accept/reject υπολογίζεται offline (accepted όταν βρέθηκε expected source στα retrieved chunks). Δεν πραγματοποιήθηκε πραγματικό user study.
 
-4. **Qdrant data not in repo:** Το `qdrant_storage/` είναι gitignored. Μετά clone, απαιτείται `docker compose up -d` και re-indexing.
+4. **Qdrant data not in repo:** Το `qdrant_storage/` είναι gitignored. Μετά clone, το Docker demo μπορεί να δημιουργήσει ξανά το `sklearn_rag_v2_structured` collection από τα processed chunks.
 
 5. **Network dependencies:** Τα `download_corpus.py` και `chunk_structured.py` απαιτούν πρόσβαση στο scikit-learn.org.
 
@@ -372,8 +482,8 @@ cp .env.example .env
 python -m venv .venv && source .venv/bin/activate
 pip install -r requirements.txt
 
-# 2. Qdrant
-docker compose up -d
+# 2. Qdrant only
+docker compose up -d qdrant
 
 # 3. Index (if not already indexed)
 python src/vectorstore/index_chunks_qdrant.py \
